@@ -13,17 +13,30 @@ const normalize = (str) => {
 const startsWithAny = (test, prefixes) => {
   return prefixes.some((prefix) => test.startsWith(prefix));
 };
+const includesAny = (test, prefixes) => {
+  return prefixes.some((prefix) => test.includes(prefix));
+};
 const getHasNestleBrand = (obj) => {
-  if (typeof obj?.brand !== "string") {
+  if (!obj) {
     return false;
   }
-  const normalized = normalize(obj.brand);
+  let valueToUse = undefined;
+  if (typeof obj.brand === "string") {
+    valueToUse = obj.brand;
+  } else if (typeof obj.name === "string") {
+    valueToUse = obj.name;
+  } else {
+    return false;
+  }
+  const normalized = normalize(valueToUse);
   return startsWithAny(normalized, nestleCompanies);
 };
 const delimiter = "<$.$>";
 const deleteNestlePaths = (obj) => {
   const paths = getNestlePaths(obj);
-  console.log(`Found ${paths.length} nestle products to block`);
+  if (paths.length > 0) {
+    console.log(`Found ${paths.length} nestle products to block`);
+  }
   const otherPaths = [];
   let newObj = obj;
   const groupedPaths = paths.reduce((acc, curr) => {
@@ -62,10 +75,11 @@ const getNestlePaths = (obj) => {
       return;
     }
     const hasNestleBrand = getHasNestleBrand(value);
-    console.log(
-      `has nestle: ${hasNestleBrand} (brand: ${value?.brand})`,
-      value
-    );
+    if (hasNestleBrand) {
+      console.log(
+        `Found nestle product: (product: ${value?.name}, brand: ${value?.brand})`
+      );
+    }
     if (hasNestleBrand) {
       paths.push(path);
     }
@@ -124,19 +138,28 @@ const deleteRecursive = (obj, path) => {
  * what actually runs
  */
 function listener(details) {
+  const shouldContinue = details.type === "xmlhttprequest";
+  if (!shouldContinue) {
+    return;
+  }
   let filter = browser.webRequest.filterResponseData(details.requestId);
   console.info(details, filter);
   let decoder = new TextDecoder("utf-8");
   let encoder = new TextEncoder();
   let body = "";
   filter.ondata = (event) => {
-    console.info("received chunk");
     const str = decoder.decode(event.data, { stream: true });
     body += str;
   };
   filter.onstop = () => {
-    console.info("end of data");
-    const jsonData = JSON.parse(body);
+    let jsonData = {};
+    try {
+      jsonData = JSON.parse(body);
+    } catch {
+      filter.write(encoder.encode(body));
+      filter.disconnect();
+      return;
+    }
     console.log(body);
     const filtered = deleteNestlePaths(jsonData);
     const asStr = JSON.stringify(filtered);
@@ -151,10 +174,7 @@ const getNestleBrands = (webpage) => {
   const brands = [];
   const el = document.createElement("html");
   el.innerHTML = webpage;
-  console.log(webpage);
   const listingRows = el.getElementsByClassName("listing-row");
-  console.log(listingRows);
-
   Array.from(listingRows).forEach((row) => {
     const titleTag = row.getElementsByTagName("a")[0];
     const title = titleTag?.title;
@@ -175,7 +195,13 @@ window
       try {
         browser.webRequest.onBeforeRequest.addListener(
           listener,
-          { urls: ["*://*.giantfood.com/api/*/products/*"] },
+          {
+            urls: [
+              "*://*.giantfood.com/**/products/*",
+              "*://*.safeway.com/**/products",
+              "*://*/*",
+            ],
+          },
           ["blocking"]
         );
         console.info("listener added");
