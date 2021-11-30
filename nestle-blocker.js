@@ -143,7 +143,6 @@ function listener(details) {
     return;
   }
   let filter = browser.webRequest.filterResponseData(details.requestId);
-  console.info(details, filter);
   let decoder = new TextDecoder("utf-8");
   let encoder = new TextEncoder();
   let body = "";
@@ -160,7 +159,6 @@ function listener(details) {
       filter.disconnect();
       return;
     }
-    console.log(body);
     const filtered = deleteNestlePaths(jsonData);
     const asStr = JSON.stringify(filtered);
     filter.write(encoder.encode(asStr));
