@@ -6,7 +6,13 @@
   "description": "Hides Nestle products from grocery store websites",
 
   "background": {
-    "scripts": ["nestle-blocker.js"]
+    "scripts": ["src/nestle-blocker.js", "src/util.js"]
   },
+  "content_scripts": [
+    {
+      "matches": ["*://*.kroger.com/*"],
+      "js": ["src/vendors/kroger.js"]
+    }
+  ],
   "permissions": ["webRequestBlocking", "webRequest", "*://*/*"]
 }

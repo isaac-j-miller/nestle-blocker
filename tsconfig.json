@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "target": "ES2019",
+    "jsx": "react",
+    "strict": true,
+    "allowJs": true,
+    "sourceMap": true,
+    "pretty": true,
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "noImplicitAny": true,
+    "allowSyntheticDefaultImports": true,
+    "noErrorTruncation": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "noUnusedLocals": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": "./src",
+
+    //   "paths": {
+    //     "src/*": ["./src/*"],
+    //   },
+    "typeRoots": ["./node_modules/@types"],
+    "lib": ["dom", "es2019"]
+  },
+  "exclude": ["**/dist/**", "**/node_modules"]
+}
