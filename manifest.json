@@ -1,0 +1,12 @@
+{
+  "manifest_version": 2,
+  "name": "NestleBlocker",
+  "version": "1.0",
+
+  "description": "Hides Nestle products from grocery store websites",
+
+  "background": {
+    "scripts": ["nestle-blocker.js"]
+  },
+  "permissions": ["webRequestBlocking", "webRequest", "*://*/*"]
+}

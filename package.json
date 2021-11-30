@@ -1,0 +1,24 @@
+{
+  "name": "nestle-blocker",
+  "version": "1.0.0",
+  "description": "Blocks nestle products from grocery store sites",
+  "main": "nestle-blocker.js",
+  "scripts": {
+    "test": "jest",
+    "prettier": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isaac-j-miller/nestle-blocker.git"
+  },
+  "author": "Isaac Miller",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/isaac-j-miller/nestle-blocker/issues"
+  },
+  "homepage": "https://github.com/isaac-j-miller/nestle-blocker#readme",
+  "devDependencies": {
+    "jest": "^27.4.2",
+    "prettier": "^2.5.0"
+  }
+}
