@@ -1,10 +1,10 @@
 import browser, { WebRequest } from "webextension-polyfill";
-import { GrocerUtils } from "./grocer-utils";
-import { getGrocerUtils, knownGrocers } from "./grocer-utils/factory";
+import { ApiGrocerUtils } from "./api-grocer-utils";
+import { getApiGrocerUtils, knownApiGrocers } from "./api-grocer-utils/factory";
 import { NestleBrandGetter } from "./nestle-product";
 
 function getListener(
-  grocerUtils: GrocerUtils
+  grocerUtils: ApiGrocerUtils
 ): (details: WebRequest.OnBeforeRequestDetailsType) => void {
   return (details) => {
     const shouldContinue = details.type === "xmlhttprequest";
@@ -41,17 +41,24 @@ function getListener(
     return {};
   };
 }
+const BLOCK_FROM_API = false;
 async function entrypoint() {
   console.info("Init plugin");
-  await NestleBrandGetter.getNestleBrands();
-  knownGrocers.forEach((name) => {
-    const utils = getGrocerUtils(name);
-    const listener = getListener(utils);
-    const url = utils.listenUrl;
-    browser.webRequest.onBeforeRequest.addListener(listener, { urls: [url] }, [
-      "blocking",
-    ]);
-    console.info(`Listener added for ${name}`);
-  });
+  if (BLOCK_FROM_API) {
+    await NestleBrandGetter.getNestleBrands();
+    knownApiGrocers.forEach((name) => {
+      const utils = getApiGrocerUtils(name);
+      utils.forEach((util) => {
+        const listener = getListener(util);
+        const url = util.listenUrl;
+        browser.webRequest.onBeforeRequest.addListener(
+          listener,
+          { urls: [url] },
+          ["blocking"]
+        );
+        console.info(`Listener added for ${name}`);
+      });
+    });
+  }
 }
 void entrypoint();

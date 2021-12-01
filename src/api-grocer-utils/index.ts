@@ -1,14 +1,12 @@
-import { NestleBrandGetter } from "../nestle-product";
-import { getRecursive, normalize, setRecursive, startsWithAny } from "../util";
+import { getHasNestleBrand, getRecursive, setRecursive } from "../util";
 
-export type UtilsOptions = {
+export type ApiGrocerUtilsOptions = {
   listenUrl: string;
   brandPaths: string[][];
   productPath: string[];
 };
-
-export class GrocerUtils {
-  constructor(protected options: UtilsOptions) {}
+export class ApiGrocerUtils {
+  constructor(protected options: ApiGrocerUtilsOptions) {}
   getBrandName(obj: any): string | undefined {
     if (!obj) {
       return undefined;
@@ -27,13 +25,7 @@ export class GrocerUtils {
     }
     return undefined;
   }
-  getHasNestleBrand(brandName: string | undefined) {
-    if (!brandName || typeof brandName !== "string") {
-      return false;
-    }
-    const normalized = normalize(brandName);
-    return startsWithAny(normalized, NestleBrandGetter.getBrands());
-  }
+
   deleteNestlePaths(obj: any) {
     const { productPath } = this.options;
     const products: object[] = getRecursive(obj, productPath);
@@ -41,7 +33,7 @@ export class GrocerUtils {
     console.info(`Found ${products.length} products`);
     const filteredProducts = products.filter((product) => {
       const brandName = this.getBrandName(product);
-      const isNestleBrand = this.getHasNestleBrand(brandName);
+      const isNestleBrand = getHasNestleBrand(brandName);
       console.debug(`${brandName}: ${isNestleBrand}`);
       if (isNestleBrand) {
         removedProducts++;

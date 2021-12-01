@@ -1,3 +1,5 @@
+import { NestleBrandGetter } from "./nestle-product";
+
 const letters = "abcdefghiklmnopqrstuvwxyz1234567890";
 const normalize = (str: string) => {
   return Array.from(
@@ -66,7 +68,13 @@ const deleteRecursive = (obj: any, path: string[]) => {
   }
   return obj;
 };
-
+function getHasNestleBrand(brandName: string | undefined) {
+  if (!brandName || typeof brandName !== "string") {
+    return false;
+  }
+  const normalized = normalize(brandName);
+  return startsWithAny(normalized, NestleBrandGetter.getBrands());
+}
 export {
   deleteRecursive,
   setRecursive,
@@ -75,4 +83,5 @@ export {
   includesAny,
   startsWithAny,
   normalize,
+  getHasNestleBrand,
 };
