@@ -13,6 +13,12 @@ export class NestleBrandGetter {
     return Array.from(this.brands);
   }
   static async getNestleBrands() {
+    if (NestleBrandGetter.brands.size > 0) {
+      console.debug(
+        `Cache already has ${NestleBrandGetter.brands.size} entries, not attempting second request`
+      );
+      return;
+    }
     const resp = await window.fetch(
       "https://www.nestle.com/brands/brandssearchlist"
     );

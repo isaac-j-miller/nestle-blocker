@@ -1,4 +1,4 @@
-import { GrocerUtils } from "grocer-utils";
+import { GrocerUtils } from "./index";
 
 export const knownGrocers = ["giant", "safeway"] as const;
 export type KnownGrocer = typeof knownGrocers[number];
@@ -7,13 +7,15 @@ export function getGrocerUtils(grocer: KnownGrocer): GrocerUtils {
   switch (grocer) {
     case "giant":
       return new GrocerUtils({
-        brandPath: ["brand"],
-        listenUrl: "https://giantfood.com/api/v5.0/products/",
+        brandPaths: [["brand"]],
+        listenUrl: "*://*.giantfood.com/api/*/products/*",
+        productPath: ["response", "products"],
       });
     case "safeway":
       return new GrocerUtils({
-        brandPath: ["brand", "name"],
-        listenUrl: "https://safeway.com/**/products",
+        brandPaths: [["brand"], ["name"]],
+        listenUrl: "*://*.safeway.com/abs/pub/xapi/search/products*",
+        productPath: ["response", "docs"],
       });
     default:
       throw new Error(`Unexpected grocer value: ${grocer}`);

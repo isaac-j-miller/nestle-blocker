@@ -1,4 +1,3 @@
-const nestleCompanies: string[] = [];
 const letters = "abcdefghiklmnopqrstuvwxyz1234567890";
 const normalize = (str: string) => {
   return Array.from(
@@ -76,5 +75,4 @@ export {
   includesAny,
   startsWithAny,
   normalize,
-  nestleCompanies,
 };

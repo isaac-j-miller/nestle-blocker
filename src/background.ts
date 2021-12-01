@@ -1,7 +1,7 @@
+import browser, { WebRequest } from "webextension-polyfill";
 import { GrocerUtils } from "./grocer-utils";
 import { getGrocerUtils, knownGrocers } from "./grocer-utils/factory";
 import { NestleBrandGetter } from "./nestle-product";
-import browser, { WebRequest } from "webextension-polyfill";
 
 function getListener(
   grocerUtils: GrocerUtils
