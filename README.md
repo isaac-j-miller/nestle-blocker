@@ -9,6 +9,5 @@ hides nestle products from grocery store websites by intercepting XHR requests a
 
 ## todo/problems:
 
-- migrate to typescript and use webpack/babel
 - Amazon uses SSR, apparently, so we cannot intercept requests in the same way as with the other stores
 - Kroger does the same

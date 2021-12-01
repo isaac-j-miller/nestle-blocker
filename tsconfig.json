@@ -24,12 +24,9 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "baseUrl": "./src",
-
-    //   "paths": {
-    //     "src/*": ["./src/*"],
-    //   },
     "typeRoots": ["./node_modules/@types"],
     "lib": ["dom", "es2019"]
   },
+  "include": ["src/**/*"],
   "exclude": ["**/dist/**", "**/node_modules"]
 }
