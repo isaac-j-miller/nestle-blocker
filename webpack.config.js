@@ -32,10 +32,10 @@ module.exports = {
     background: "./src/background.ts",
     "content-script": "./src/content-script.ts",
   },
-  target: "node",
+  target: "web",
   output: {
     filename: "[name].js",
-    libraryTarget: "commonjs2",
+    libraryTarget: "umd",
     path: dist,
   },
 };
