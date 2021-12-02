@@ -6,6 +6,7 @@ export const knownGrocers = [
   "safeway",
   "amazon",
   "walmart",
+  "harristeeter",
 ] as const;
 export type KnownGrocer = typeof knownGrocers[number];
 
@@ -24,6 +25,9 @@ export function getGrocerFromHost(host: string): KnownGrocer | undefined {
   }
   if (host.endsWith("walmart.com")) {
     return "walmart";
+  }
+  if (host.endsWith("harristeeter.com")) {
+    return "harristeeter";
   }
   return undefined;
 }
@@ -77,6 +81,13 @@ export function getUiGrocerUtils(grocer: KnownGrocer): UiGrocerUtils {
         extractBrand: (el) =>
           el.getElementsByTagName("a")[0].getElementsByTagName("span")[0]
             ?.innerHTML,
+      });
+    case "harristeeter":
+      return new UiGrocerUtils({
+        getElements: (doc) =>
+          Array.from(doc.getElementsByClassName("productbox")),
+        extractBrand: (el) =>
+          el.getElementsByClassName("product_title")[0]?.innerHTML,
       });
     default:
       throw new Error(`Unexpected grocer value: ${grocer}`);
