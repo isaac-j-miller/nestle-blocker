@@ -1,15 +1,10 @@
 import { NestleBrandGetter } from "./nestle-product";
 
-const letters = "abcdefghiklmnopqrstuvwxyz1234567890";
 const normalize = (str: string) => {
-  return Array.from(
-    str
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-  )
-    .filter((letter) => letters.includes(letter))
-    .join("");
+  return str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 };
 const startsWithAny = (test: string, prefixes: string[]) => {
   return prefixes.some((prefix) => test.startsWith(prefix));
@@ -74,7 +69,7 @@ function getHasNestleBrand(brandName: string | undefined) {
   }
   const normalized = normalize(brandName);
   const brands = NestleBrandGetter.getBrands();
-  const startsWithNestle = startsWithAny(normalized, brands);
+  const startsWithNestle = includesAny(normalized, brands);
   // console.debug(normalized, startsWithNestle, brands)
   return startsWithNestle;
 }

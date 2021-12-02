@@ -9,6 +9,8 @@ export const knownGrocers = [
   "harristeeter",
   "target",
   "foodcity",
+  "foodlion",
+  "instacart",
 ] as const;
 export type KnownGrocer = typeof knownGrocers[number];
 
@@ -36,6 +38,12 @@ export function getGrocerFromHost(host: string): KnownGrocer | undefined {
   }
   if (host.endsWith("foodcity.com")) {
     return "foodcity";
+  }
+  if (host.endsWith("foodlion.com")) {
+    return "foodlion";
+  }
+  if (host.endsWith("instacart.com")) {
+    return "instacart";
   }
   return undefined;
 }
@@ -130,6 +138,30 @@ export function getUiGrocerUtils(grocer: KnownGrocer): UiGrocerUtils {
             .getElementsByClassName("tile-item__product__brand")[0]
             ?.getElementsByTagName("span")[0]?.innerHTML,
       });
+    case "foodlion":
+      return new UiGrocerUtils({
+        getElements: (doc) =>
+          Array.from(doc.getElementsByClassName("cell product-cell")),
+        extractBrand: (el) =>
+          el.getElementsByClassName("cell-title-text")[0]?.innerHTML,
+      });
+    case "instacart":
+      return new UiGrocerUtils({
+        getElements: (doc) => {
+          const xpathExpression = "//div[contains(@class, 'ItemBCardLarge')]";
+          const xpathResult = document.evaluate(xpathExpression, doc);
+          let currentNode = undefined;
+          const nodes: Node[] = [];
+          while ((currentNode = xpathResult.iterateNext())) {
+            nodes.push(currentNode);
+          }
+          return nodes as Element[];
+        },
+        extractBrand: (el) =>
+          document.evaluate("div[2]/div", el).iterateNext()?.textContent ??
+          undefined,
+      });
+
     default:
       throw new Error(`Unexpected grocer value: ${grocer}`);
   }

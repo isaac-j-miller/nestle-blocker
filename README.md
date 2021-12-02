@@ -12,3 +12,4 @@ marks products sold under Nestle-affiliated brands with a red X
 - Kroger
 - Target
 - Food City
+- Instacart

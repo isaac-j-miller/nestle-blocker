@@ -1,5 +1,6 @@
 import { normalize } from "./util";
 
+const knownBrands = ["la lechera", "abuelita", "nestle"];
 export class NestleBrandGetter {
   private constructor() {}
   private static brands: Set<string> = new Set<string>();
@@ -33,9 +34,11 @@ export class NestleBrandGetter {
         NestleBrandGetter.brands.add(normalize(title));
       }
     });
-    NestleBrandGetter.brands.add("nestle");
+    knownBrands.forEach((b) => NestleBrandGetter.brands.add(normalize(b)));
     console.debug(
-      `Found list of ${NestleBrandGetter.brands.size} nestle brands`
+      `Found list of ${
+        NestleBrandGetter.brands.size
+      } nestle brands: ${NestleBrandGetter.getBrands()}`
     );
   }
 }
