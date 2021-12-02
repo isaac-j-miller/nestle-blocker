@@ -2,7 +2,7 @@
 
 marks products sold under Nestle-affiliated brands with a red X
 
-## tested websites:
+## supported websites:
 
 - Giant
 - Safeway
@@ -11,3 +11,4 @@ marks products sold under Nestle-affiliated brands with a red X
 - Harris Teeter
 - Kroger
 - Target
+- Food City
