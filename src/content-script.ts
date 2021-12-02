@@ -35,7 +35,7 @@ const nestleCss = `
 
 async function entrypoint() {
   console.info("Init plugin");
-  await NestleBrandGetter.getNestleBrands();
+  await NestleBrandGetter.getNestleBrands(window);
   const grocerId = getGrocerFromHost(window.location.host);
   if (!grocerId) {
     console.warn(`failed to find grocer from host ${window.location.host}`);
@@ -50,7 +50,7 @@ async function entrypoint() {
   const minInterval = 3000;
   const modifyElements = () => {
     console.info(`modifying elements...`);
-    utils.modifyElements();
+    utils.modifyElements(document);
     mostRecentModifyEvent = new Date().valueOf();
   };
   const modifyElementsWithTimeLimit = () => {
@@ -62,7 +62,7 @@ async function entrypoint() {
   eventsToListenToWithTimeLimit.forEach((eventType) => {
     window.addEventListener(eventType, modifyElementsWithTimeLimit);
   });
-  const eventsToListenToWithDelay = ["submit"];
+  const eventsToListenToWithDelay = ["submit", "load"];
   eventsToListenToWithDelay.forEach((eventType) => {
     window.addEventListener(eventType, () => {
       setTimeout(modifyElements, 1500);

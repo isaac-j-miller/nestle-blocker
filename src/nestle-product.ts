@@ -13,28 +13,38 @@ export class NestleBrandGetter {
   static getBrands() {
     return Array.from(this.brands);
   }
-  static async getNestleBrands() {
+  static async getNestleBrands(wndw: Window, parser?: (str: string) => string[]) {
     if (NestleBrandGetter.brands.size > 0) {
       console.debug(
         `Cache already has ${NestleBrandGetter.brands.size} entries, not attempting second request`
       );
       return;
     }
-    const resp = await window.fetch(
+    const resp = await wndw.fetch(
       "https://www.nestle.com/brands/brandssearchlist"
     );
     const text = await resp.text();
-    const el = document.createElement("html");
-    el.innerHTML = text;
+    const defaultParser = (str: string): string[] => {
+        const foundBrands: string[] = []
+        const doc = new Document();
+    const el = doc.createElement("html");
+    el.innerHTML = str;
+    
     const listingRows = el.getElementsByClassName("listing-row");
     Array.from(listingRows).forEach((row) => {
-      const titleTag = row.getElementsByTagName("a")[0];
-      const title = titleTag?.title;
-      if (title) {
-        NestleBrandGetter.brands.add(normalize(title));
-      }
-    });
-    knownBrands.forEach((b) => NestleBrandGetter.brands.add(normalize(b)));
+        const titleTag = row.getElementsByTagName("a")[0];
+        const title = titleTag?.title;
+        if (title) {
+          foundBrands.push(title)
+        }
+      });
+      return foundBrands
+    }
+    const parse = parser ?? defaultParser;
+    
+    const brands = parse(text);
+    
+    [...brands, ...knownBrands].forEach((b) => NestleBrandGetter.brands.add(normalize(b)));
     console.debug(
       `Found list of ${
         NestleBrandGetter.brands.size

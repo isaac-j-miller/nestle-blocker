@@ -6,10 +6,10 @@ export type SsrGrocerUtilsOptions = {
 };
 export class SsrGrocerUtils {
   constructor(private options: SsrGrocerUtilsOptions) {}
-  modifyElements() {
+  modifyElements(doc: Document) {
     const { getElements, extractBrand } = this.options;
     console.info(`modifying elements`);
-    const elements = getElements(document);
+    const elements = getElements(doc);
     console.info(`found ${elements.length} elements`);
     elements.forEach((el) => {
       const brand = extractBrand(el);
