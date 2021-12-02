@@ -10,3 +10,4 @@ marks products sold under Nestle-affiliated brands with a red X
 - Amazon
 - Harris Teeter
 - Kroger
+- Target

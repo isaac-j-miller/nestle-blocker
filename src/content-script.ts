@@ -47,22 +47,30 @@ async function entrypoint() {
   styleElem.innerHTML = nestleCss;
   document.head.appendChild(styleElem);
   let mostRecentModifyEvent = 0;
-  const minInterval = 15000;
+  const minInterval = 3000;
   const modifyElements = () => {
-    if (mostRecentModifyEvent + minInterval < new Date().valueOf()) {
-      console.info(`modifying elements...`);
-      utils.modifyElements();
-      mostRecentModifyEvent = new Date().valueOf();
-    }
-  };
-  const eventsToListenTo = ["click", "scroll"];
-  eventsToListenTo.forEach((eventType) => {
-    window.addEventListener(eventType, modifyElements);
-  });
-  window.addEventListener("load", () => {
     console.info(`modifying elements...`);
     utils.modifyElements();
     mostRecentModifyEvent = new Date().valueOf();
+  };
+  const modifyElementsWithTimeLimit = () => {
+    if (mostRecentModifyEvent + minInterval < new Date().valueOf()) {
+      modifyElements();
+    }
+  };
+  const eventsToListenToWithTimeLimit = ["click", "scroll"];
+  eventsToListenToWithTimeLimit.forEach((eventType) => {
+    window.addEventListener(eventType, modifyElementsWithTimeLimit);
+  });
+  const eventsToListenToWithDelay = ["submit"];
+  eventsToListenToWithDelay.forEach((eventType) => {
+    window.addEventListener(eventType, () => {
+      setTimeout(modifyElements, 1500);
+    });
+  });
+  const eventsToListenToWithNoLimit = ["load"];
+  eventsToListenToWithNoLimit.forEach((eventType) => {
+    window.addEventListener(eventType, modifyElements);
   });
 }
 

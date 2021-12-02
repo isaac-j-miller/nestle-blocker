@@ -33,6 +33,7 @@ export class NestleBrandGetter {
         NestleBrandGetter.brands.add(normalize(title));
       }
     });
+    NestleBrandGetter.brands.add("nestle");
     console.debug(
       `Found list of ${NestleBrandGetter.brands.size} nestle brands`
     );

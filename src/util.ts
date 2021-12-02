@@ -73,7 +73,10 @@ function getHasNestleBrand(brandName: string | undefined) {
     return false;
   }
   const normalized = normalize(brandName);
-  return startsWithAny(normalized, NestleBrandGetter.getBrands());
+  const brands = NestleBrandGetter.getBrands();
+  const startsWithNestle = startsWithAny(normalized, brands);
+  // console.debug(normalized, startsWithNestle, brands)
+  return startsWithNestle;
 }
 export {
   deleteRecursive,

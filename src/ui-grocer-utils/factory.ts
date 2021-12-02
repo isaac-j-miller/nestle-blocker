@@ -7,6 +7,7 @@ export const knownGrocers = [
   "amazon",
   "walmart",
   "harristeeter",
+  "target",
 ] as const;
 export type KnownGrocer = typeof knownGrocers[number];
 
@@ -28,6 +29,9 @@ export function getGrocerFromHost(host: string): KnownGrocer | undefined {
   }
   if (host.endsWith("harristeeter.com")) {
     return "harristeeter";
+  }
+  if (host.endsWith("target.com")) {
+    return "target";
   }
   return undefined;
 }
@@ -88,6 +92,21 @@ export function getUiGrocerUtils(grocer: KnownGrocer): UiGrocerUtils {
           Array.from(doc.getElementsByClassName("productbox")),
         extractBrand: (el) =>
           el.getElementsByClassName("product_title")[0]?.innerHTML,
+      });
+    case "target":
+      return new UiGrocerUtils({
+        getElements: (doc) => {
+          const xpathExpression =
+            "//div[contains(@class, 'ProductCardStyled') or contains(@class, 'AisleCardStyled') or contains(@class, 'StyledProductCardRow')]";
+          const xpathResult = document.evaluate(xpathExpression, doc);
+          let currentNode = undefined;
+          const nodes: Node[] = [];
+          while ((currentNode = xpathResult.iterateNext())) {
+            nodes.push(currentNode);
+          }
+          return nodes as Element[];
+        },
+        extractBrand: (el) => el.textContent ?? undefined,
       });
     default:
       throw new Error(`Unexpected grocer value: ${grocer}`);
