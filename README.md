@@ -1,6 +1,6 @@
 # nestle-blocker
 
-hides nestle products from grocery store websites by intercepting XHR requests and removing products sold under Nestle-affiliated brands
+marks products sold under Nestle-affiliated brands with a red X
 
 ## tested websites:
 
