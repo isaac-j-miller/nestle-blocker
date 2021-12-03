@@ -1,7 +1,7 @@
 import puppeteer from "puppeteer";
 import { NestleBrandGetter } from "../nestle-product";
-import { getUiGrocerUtils, KnownGrocer } from "../ui-grocer-utils/factory";
-
+import { getUiGrocerUtils } from "../ui-grocer-utils/factory";
+import { KnownGrocer } from "../grocers";
 // TODO: add all of the urls and get rid of | string
 type UrlMap = {
   [key in KnownGrocer | string]: string;
@@ -33,18 +33,23 @@ describe("integration tests", () => {
   beforeEach(async () => {
     page = await browser.newPage();
   });
-
+  afterAll(async () => {
+    await browser.close();
+  });
   Object.entries(urls).forEach(([store, url]) => {
-    it(store, async () => {
-      const utils = getUiGrocerUtils(store as KnownGrocer);
-      await page.goto(url);
-      await page.waitForNetworkIdle();
-      const doc = new Document();
-      const body = await page.content();
-      doc.body.innerHTML = body;
-      utils.modifyElements(doc);
-      const flagged = doc.getElementsByClassName("anti-nestle");
-      expect(flagged.length).toBeGreaterThan(0);
-    });
+    it(
+      store,
+      async () => {
+        const utils = getUiGrocerUtils(store as KnownGrocer);
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+        const body = await page.content();
+        document.body.innerHTML = body;
+        utils.modifyElements(document);
+        const flagged = document.getElementsByClassName("anti-nestle");
+        expect(flagged.length).toBeGreaterThan(0);
+      },
+      30000
+    );
   });
 });

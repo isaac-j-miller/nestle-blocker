@@ -29,8 +29,7 @@ export class NestleBrandGetter {
     const text = await resp.text();
     const defaultParser = (str: string): string[] => {
       const foundBrands: string[] = [];
-      const doc = new Document();
-      const el = doc.createElement("html");
+      const el = document.createElement("html");
       el.innerHTML = str;
 
       const listingRows = el.getElementsByClassName("listing-row");
