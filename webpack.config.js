@@ -1,6 +1,5 @@
 const dist = `${__dirname}/dist`;
-
-module.exports = {
+const defaults = {
   module: {
     rules: [
       {
@@ -28,14 +27,26 @@ module.exports = {
   },
   mode: "development",
   devtool: "source-map",
-  entry: {
-    // background: "./src/background.ts",
-    "content-script": "./src/content-script.ts",
-  },
-  target: "web",
   output: {
     filename: "[name].js",
     libraryTarget: "umd",
     path: dist,
   },
 };
+const webConfig = {
+  ...defaults,
+  entry: {
+    "content-script": "./src/content-script.ts",
+  },
+  target: "web",
+};
+const buildConfig = {
+  ...defaults,
+  externalsPresets: { node: true },
+  externals: ["prettier"],
+  entry: {
+    "create-manifest": "./src/build/create-manifest.ts",
+  },
+  target: "node",
+};
+module.exports = [webConfig, buildConfig];

@@ -2,14 +2,61 @@
   "manifest_version": 2,
   "name": "NestleBlocker",
   "version": "1.0",
-
   "description": "Hides Nestle products from grocery store websites",
-
   "content_scripts": [
     {
-      "matches": ["*://*/*"],
-      "js": ["dist/content-script.js"]
+      "matches": ["*://*.kroger.com/*"],
+      "js": ["./dist/content-script.js"]
+    },
+    {
+      "matches": ["*://*.giantfood.com/*"],
+      "js": ["./dist/content-script.js"]
+    },
+    {
+      "matches": ["*://*.safeway.com/*"],
+      "js": ["./dist/content-script.js"]
+    },
+    {
+      "matches": ["*://*.amazon.com/*"],
+      "js": ["./dist/content-script.js"]
+    },
+    {
+      "matches": ["*://*.walmart.com/*"],
+      "js": ["./dist/content-script.js"]
+    },
+    {
+      "matches": ["*://*.harristeeter.com/*"],
+      "js": ["./dist/content-script.js"]
+    },
+    {
+      "matches": ["*://*.target.com/*"],
+      "js": ["./dist/content-script.js"]
+    },
+    {
+      "matches": ["*://*.foodcity.com/*"],
+      "js": ["./dist/content-script.js"]
+    },
+    {
+      "matches": ["*://*.foodlion.com/*"],
+      "js": ["./dist/content-script.js"]
+    },
+    {
+      "matches": ["*://*.instacart.com/*"],
+      "js": ["./dist/content-script.js"]
     }
   ],
-  "permissions": ["webRequestBlocking", "webRequest", "*://*/*"]
+  "permissions": [
+    "webRequestBlocking",
+    "webRequest",
+    "*://*.kroger.com/*",
+    "*://*.giantfood.com/*",
+    "*://*.safeway.com/*",
+    "*://*.amazon.com/*",
+    "*://*.walmart.com/*",
+    "*://*.harristeeter.com/*",
+    "*://*.target.com/*",
+    "*://*.foodcity.com/*",
+    "*://*.foodlion.com/*",
+    "*://*.instacart.com/*"
+  ]
 }

@@ -1,52 +1,5 @@
+import { KnownGrocer } from "../grocers";
 import { SsrGrocerUtils as UiGrocerUtils } from "./index";
-
-export const knownGrocers = [
-  "kroger",
-  "giant",
-  "safeway",
-  "amazon",
-  "walmart",
-  "harristeeter",
-  "target",
-  "foodcity",
-  "foodlion",
-  "instacart",
-] as const;
-export type KnownGrocer = typeof knownGrocers[number];
-
-export function getGrocerFromHost(host: string): KnownGrocer | undefined {
-  if (host.endsWith("kroger.com")) {
-    return "kroger";
-  }
-  if (host.endsWith("giantfood.com")) {
-    return "giant";
-  }
-  if (host.endsWith("safeway.com")) {
-    return "safeway";
-  }
-  if (host.endsWith("amazon.com")) {
-    return "amazon";
-  }
-  if (host.endsWith("walmart.com")) {
-    return "walmart";
-  }
-  if (host.endsWith("harristeeter.com")) {
-    return "harristeeter";
-  }
-  if (host.endsWith("target.com")) {
-    return "target";
-  }
-  if (host.endsWith("foodcity.com")) {
-    return "foodcity";
-  }
-  if (host.endsWith("foodlion.com")) {
-    return "foodlion";
-  }
-  if (host.endsWith("instacart.com")) {
-    return "instacart";
-  }
-  return undefined;
-}
 
 export function getUiGrocerUtils(grocer: KnownGrocer): UiGrocerUtils {
   switch (grocer) {

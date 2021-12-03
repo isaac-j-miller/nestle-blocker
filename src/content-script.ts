@@ -1,5 +1,6 @@
-import { getGrocerFromHost, getUiGrocerUtils } from "./ui-grocer-utils/factory";
+import { getUiGrocerUtils } from "./ui-grocer-utils/factory";
 import { NestleBrandGetter } from "./nestle-product";
+import { getGrocerFromHost } from "./grocers";
 
 const nestleCss = `
 .anti-nestle {
@@ -63,11 +64,11 @@ async function entrypoint() {
     window.addEventListener(eventType, modifyElementsWithTimeLimit);
   });
   const eventsToListenToWithDelay = ["submit", "load"];
-  eventsToListenToWithDelay.forEach((eventType) => {
+  eventsToListenToWithDelay.map((eventType) =>
     window.addEventListener(eventType, () => {
       setTimeout(modifyElements, 1500);
-    });
-  });
+    })
+  );
   const eventsToListenToWithNoLimit = ["load"];
   eventsToListenToWithNoLimit.forEach((eventType) => {
     window.addEventListener(eventType, modifyElements);
