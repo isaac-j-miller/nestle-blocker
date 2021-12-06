@@ -45,7 +45,7 @@ const BLOCK_FROM_API = false;
 async function entrypoint() {
   console.info("Init plugin");
   if (BLOCK_FROM_API) {
-    await NestleBrandGetter.getNestleBrands(window);
+    await NestleBrandGetter.getNestleBrands(document);
     knownApiGrocers.forEach((name) => {
       const utils = getApiGrocerUtils(name);
       utils.forEach((util) => {

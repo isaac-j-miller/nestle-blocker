@@ -1,10 +1,12 @@
 import axios from "axios";
+import { JSDOM } from "jsdom";
 import { normalize } from "./util";
 
 const knownBrands = ["la lechera", "abuelita", "nestle"];
 export class NestleBrandGetter {
   private constructor() {}
   private static brands: Set<string> = new Set<string>();
+  private static document?: Document;
   static isNestleBrand(brand: string) {
     if (!NestleBrandGetter.brands.size) {
       throw new Error(`Not initialized!`);
@@ -16,16 +18,21 @@ export class NestleBrandGetter {
   }
   private static parse(str: string): string[] {
     const foundBrands: string[] = [];
-    const el = document.createElement("html");
+    const doc = NestleBrandGetter.document ?? new JSDOM(str).window.document;
+    const el = doc.createElement("html");
     el.innerHTML = str;
-
-    const listItems = document.evaluate(
+    const listItems = doc.evaluate(
       "//div[contains(@class,'div-col')]/ul/li",
-      el
+      el,
+      null,
+      4
     );
     let listItem = listItems.iterateNext();
     while (listItem) {
-      const text = (listItem as HTMLElement).innerText;
+      const elem = doc.createElement("span");
+      elem.innerHTML = (listItem as Element).innerHTML;
+      const text = elem.innerText ?? elem.textContent;
+      elem.remove();
       const firstNonNameIndex = Array.from(text).findIndex((value) =>
         "[(".includes(value)
       );
@@ -37,7 +44,7 @@ export class NestleBrandGetter {
       }
       if (brandName) {
         foundBrands.push(brandName);
-        console.info(
+        console.debug(
           `Found brand name. raw text: ${text}, brandName: ${brandName}`
         );
       }
@@ -45,7 +52,8 @@ export class NestleBrandGetter {
     }
     return foundBrands;
   }
-  static async getNestleBrands() {
+  static async getNestleBrands(doc?: Document) {
+    NestleBrandGetter.document = doc;
     if (NestleBrandGetter.brands.size > 0) {
       console.debug(
         `Cache already has ${NestleBrandGetter.brands.size} entries, not attempting second request`
@@ -56,7 +64,7 @@ export class NestleBrandGetter {
       "https://en.wikipedia.org/wiki/List_of_Nestl%C3%A9_brands"
     );
     const text = resp.data;
-    console.log("request sucess");
+    console.debug("request sucess");
     const brands = NestleBrandGetter.parse(text);
 
     [...brands, ...knownBrands].forEach((b) =>

@@ -1,4 +1,6 @@
 import puppeteer from "puppeteer";
+import axios from "axios";
+import { JSDOM } from "jsdom";
 import { NestleBrandGetter } from "../nestle-product";
 import { getUiGrocerUtils } from "../ui-grocer-utils/factory";
 import { KnownGrocer } from "../grocers";
@@ -14,11 +16,14 @@ describe("integration tests", () => {
   let browser!: puppeteer.Browser;
   let page!: puppeteer.Page;
   beforeAll(async () => {
+    axios.defaults.adapter = require("axios/lib/adapters/http");
     browser = await puppeteer.launch({ headless: true });
     await NestleBrandGetter.getNestleBrands();
   });
   afterEach(async () => {
-    await page.close();
+    if (page) {
+      await page.close();
+    }
   });
   beforeEach(async () => {
     page = await browser.newPage();
@@ -34,6 +39,7 @@ describe("integration tests", () => {
         await page.goto(url);
         await page.waitForNetworkIdle();
         const body = await page.content();
+        const document = new JSDOM(body).window.document;
         document.body.innerHTML = body;
         utils.modifyElements(document);
         const flagged = document.getElementsByClassName("anti-nestle");

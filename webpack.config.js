@@ -43,7 +43,7 @@ const webConfig = {
 const buildConfig = {
   ...defaults,
   externalsPresets: { node: true },
-  externals: ["prettier"],
+  externals: ["prettier", "jsdom"],
   entry: {
     "create-manifest": "./src/build/create-manifest.ts",
   },
