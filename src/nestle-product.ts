@@ -52,16 +52,8 @@ export class NestleBrandGetter {
       );
       return;
     }
-    const origin = "https://en.wikipedia.org";
     const resp = await axios.get<string>(
-      "https://en.wikipedia.org/wiki/List_of_Nestl%C3%A9_brands",
-      {
-        headers: {
-          "Access-Control-Allow-Origin": [origin, "*"].join(","),
-          Origin: origin,
-        },
-        withCredentials: false,
-      }
+      "https://en.wikipedia.org/wiki/List_of_Nestl%C3%A9_brands"
     );
     const text = resp.data;
     console.log("request sucess");
