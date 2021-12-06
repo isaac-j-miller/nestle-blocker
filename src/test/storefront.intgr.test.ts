@@ -15,17 +15,7 @@ describe("integration tests", () => {
   let page!: puppeteer.Page;
   beforeAll(async () => {
     browser = await puppeteer.launch({ headless: true });
-    const fakeWindow = {
-      fetch: async () =>
-        Promise.resolve({
-          text: async () => Promise.resolve("nescafe,carnation"),
-        }),
-    };
-    const parser = (str: string) => str.split(",");
-    await NestleBrandGetter.getNestleBrands(
-      fakeWindow as unknown as Window,
-      parser
-    );
+    await NestleBrandGetter.getNestleBrands();
   });
   afterEach(async () => {
     await page.close();

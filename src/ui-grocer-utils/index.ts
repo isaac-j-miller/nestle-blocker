@@ -16,7 +16,9 @@ export class SsrGrocerUtils {
       // console.log(el, brand);
       const isNestle = getHasNestleBrand(brand);
       if (isNestle) {
-        console.info(`found nestle element (item: ${brand})`);
+        console.info(
+          `found nestle element (item: ${brand}, brandMatch: ${isNestle})`
+        );
         el.classList.add("anti-nestle");
       }
     });

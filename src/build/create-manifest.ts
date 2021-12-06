@@ -28,9 +28,9 @@ function main() {
     description: "Hides Nestle products from grocery store websites",
     content_scripts: hosts.map((h) => ({
       matches: [h],
-      js: ["./dist/content-script.js"],
+      js: ["./content-script.js"],
     })),
-    permissions: ["webRequestBlocking", "webRequest", ...hosts],
+    permissions: ["webRequest", ...hosts, "https://*.wikipedia.org/*"],
   };
   const asString = JSON.stringify(manifest, null, 4);
   const prettified = prettier.format(asString, {

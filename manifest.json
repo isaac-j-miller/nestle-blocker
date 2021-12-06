@@ -6,47 +6,46 @@
   "content_scripts": [
     {
       "matches": ["*://*.kroger.com/*"],
-      "js": ["./dist/content-script.js"]
+      "js": ["./content-script.js"]
     },
     {
       "matches": ["*://*.giantfood.com/*"],
-      "js": ["./dist/content-script.js"]
+      "js": ["./content-script.js"]
     },
     {
       "matches": ["*://*.safeway.com/*"],
-      "js": ["./dist/content-script.js"]
+      "js": ["./content-script.js"]
     },
     {
       "matches": ["*://*.amazon.com/*"],
-      "js": ["./dist/content-script.js"]
+      "js": ["./content-script.js"]
     },
     {
       "matches": ["*://*.walmart.com/*"],
-      "js": ["./dist/content-script.js"]
+      "js": ["./content-script.js"]
     },
     {
       "matches": ["*://*.harristeeter.com/*"],
-      "js": ["./dist/content-script.js"]
+      "js": ["./content-script.js"]
     },
     {
       "matches": ["*://*.target.com/*"],
-      "js": ["./dist/content-script.js"]
+      "js": ["./content-script.js"]
     },
     {
       "matches": ["*://*.foodcity.com/*"],
-      "js": ["./dist/content-script.js"]
+      "js": ["./content-script.js"]
     },
     {
       "matches": ["*://*.foodlion.com/*"],
-      "js": ["./dist/content-script.js"]
+      "js": ["./content-script.js"]
     },
     {
       "matches": ["*://*.instacart.com/*"],
-      "js": ["./dist/content-script.js"]
+      "js": ["./content-script.js"]
     }
   ],
   "permissions": [
-    "webRequestBlocking",
     "webRequest",
     "*://*.kroger.com/*",
     "*://*.giantfood.com/*",
@@ -57,6 +56,7 @@
     "*://*.target.com/*",
     "*://*.foodcity.com/*",
     "*://*.foodlion.com/*",
-    "*://*.instacart.com/*"
+    "*://*.instacart.com/*",
+    "https://*.wikipedia.org/*"
   ]
 }

@@ -1,0 +1,4 @@
+dist/
+web-ext-artifacts/
+pnpm-lock.yaml
+node_modules/

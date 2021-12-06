@@ -36,7 +36,7 @@ const nestleCss = `
 
 async function entrypoint() {
   console.info("Init plugin");
-  await NestleBrandGetter.getNestleBrands(window);
+  await NestleBrandGetter.getNestleBrands();
   const grocerId = getGrocerFromHost(window.location.host);
   if (!grocerId) {
     console.warn(`failed to find grocer from host ${window.location.host}`);

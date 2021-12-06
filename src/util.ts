@@ -4,13 +4,16 @@ const normalize = (str: string) => {
   return str
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+    .replace(/[\u0300-\u036f|®]/g, "");
 };
 const startsWithAny = (test: string, prefixes: string[]) => {
   return prefixes.some((prefix) => test.startsWith(prefix));
 };
 const includesAny = (test: string, prefixes: string[]) => {
-  return prefixes.some((prefix) => test.includes(prefix));
+  return prefixes.find(
+    (prefix) =>
+      test.startsWith(prefix + " ") || test.includes(" " + prefix + " ")
+  );
 };
 type RecursiveCallback = (key: string, value: any, path: string[]) => void;
 const recurseObject = (

@@ -7,7 +7,9 @@
     "test": "jest",
     "prettier": "prettier --write .",
     "tsc": "tsc --noEmit",
-    "build": "webpack build && node ./dist/create-manifest.js"
+    "build": "webpack build && node ./dist/create-manifest.js && cp ./manifest.json ./dist/manifest.json && web-ext build --overwrite-dest --source-dir ./dist",
+    "start": "pnpm build && web-ext run --source-dir ./dist --verbose --",
+    "lint": "web-ext lint"
   },
   "repository": {
     "type": "git",
@@ -38,10 +40,12 @@
     "puppeteer": "^12.0.1",
     "ts-jest": "^27.0.7",
     "typescript": "^4.5.2",
+    "web-ext": "^6.6.0",
     "webpack": "^5.64.4",
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
+    "axios": "^0.24.0",
     "webextension-polyfill": "^0.8.0"
   }
 }
