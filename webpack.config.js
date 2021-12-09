@@ -1,10 +1,11 @@
+const { IgnorePlugin } = require("webpack");
 const dist = `${__dirname}/dist`;
 const defaults = {
   module: {
     rules: [
       {
         test: /\.ts$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /\.test.ts$/],
         use: [
           {
             loader: "babel-loader",
@@ -27,18 +28,6 @@ const defaults = {
   },
   mode: "development",
   devtool: "source-map",
-  output: {
-    filename: "[name].js",
-    libraryTarget: "umd",
-    path: dist,
-  },
-};
-const webConfig = {
-  ...defaults,
-  entry: {
-    "content-script": "./src/content-script.ts",
-  },
-  target: "web",
 };
 const buildConfig = {
   ...defaults,
@@ -48,5 +37,23 @@ const buildConfig = {
     "create-manifest": "./src/build/create-manifest.ts",
   },
   target: "node",
+  output: {
+    filename: "[name].js",
+    libraryTarget: "umd",
+    path: dist + "/build",
+  },
 };
-module.exports = [webConfig, buildConfig];
+const webConfig = {
+  ...defaults,
+  entry: {
+    "content-script": "./src/content-script.ts",
+  },
+  target: "web",
+
+  output: {
+    filename: "[name].js",
+    libraryTarget: "umd",
+    path: dist + "/web",
+  },
+};
+module.exports = [buildConfig, webConfig];

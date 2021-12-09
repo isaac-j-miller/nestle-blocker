@@ -36,7 +36,7 @@ function main() {
   const prettified = prettier.format(asString, {
     parser: "json",
   });
-  const manifestPath = "manifest.json";
+  const manifestPath = "dist/web/manifest.json";
   console.info("Emitting new manifest.json...");
   fs.writeFileSync(manifestPath, prettified, { encoding: "utf-8" });
 }

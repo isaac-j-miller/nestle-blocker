@@ -4,7 +4,8 @@ const normalize = (str: string) => {
   return str
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f|®]/g, "");
+    .replace(/[\u0300-\u036f|®]/g, "")
+    .trim();
 };
 const startsWithAny = (test: string, prefixes: string[]) => {
   return prefixes.some((prefix) => test.startsWith(prefix));
@@ -12,7 +13,9 @@ const startsWithAny = (test: string, prefixes: string[]) => {
 const includesAny = (test: string, prefixes: string[]) => {
   return prefixes.find(
     (prefix) =>
-      test.startsWith(prefix + " ") || test.includes(" " + prefix + " ")
+      test === prefix ||
+      test.startsWith(prefix + " ") ||
+      test.includes(" " + prefix + " ")
   );
 };
 type RecursiveCallback = (key: string, value: any, path: string[]) => void;
@@ -73,7 +76,7 @@ function getHasNestleBrand(brandName: string | undefined) {
   const normalized = normalize(brandName);
   const brands = NestleBrandGetter.getBrands();
   const startsWithNestle = includesAny(normalized, brands);
-  // console.debug(normalized, startsWithNestle, brands)
+  console.debug(normalized, startsWithNestle);
   return startsWithNestle;
 }
 export {

@@ -17,7 +17,7 @@ export class UiGrocerUtils {
       const isNestle = getHasNestleBrand(brand);
       if (isNestle) {
         console.info(
-          `found nestle element (item: ${brand}, brandMatch: ${isNestle})`
+          `found nestle element (item: ${brand?.trim()}, brandMatch: ${isNestle})`
         );
         el.classList.add("anti-nestle");
       }

@@ -54,9 +54,9 @@ export function getUiGrocerUtils(grocer: KnownGrocer): UiGrocerUtils {
     case "harristeeter":
       return new UiGrocerUtils({
         getElements: (doc) =>
-          Array.from(doc.getElementsByClassName("productbox")),
+          Array.from(doc.getElementsByClassName("product-main")),
         extractBrand: (doc, el) =>
-          el.getElementsByClassName("product_title")[0]?.innerHTML,
+          el.getElementsByClassName("product-name")[0]?.innerHTML,
       });
     case "target":
       return new UiGrocerUtils({
@@ -77,7 +77,7 @@ export function getUiGrocerUtils(grocer: KnownGrocer): UiGrocerUtils {
       return new UiGrocerUtils({
         getElements: (doc) => {
           const xpathExpression =
-            "//div[contains(@class, 'card') and contains(@class, '__product') and not(@aria-hidden = 'true') and not(@style = '')]";
+            "//div[contains(@class, 'card') and contains(@class, '__product') and not(@aria-hidden = 'true')]";
           const xpathResult = doc.evaluate(xpathExpression, doc, null, 4);
           let currentNode = undefined;
           const nodes: Node[] = [];

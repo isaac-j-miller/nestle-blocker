@@ -20,6 +20,8 @@ specifiers:
   jsdom: ^19.0.0
   prettier: ^2.5.0
   puppeteer: ^12.0.1
+  puppeteer-extra: ^3.2.3
+  puppeteer-extra-plugin-stealth: ^2.9.0
   ts-jest: ^27.0.7
   typescript: ^4.5.2
   web-ext: ^6.6.0
@@ -50,6 +52,8 @@ devDependencies:
   jsdom: 19.0.0
   prettier: 2.5.0
   puppeteer: 12.0.1
+  puppeteer-extra: 3.2.3_puppeteer@12.0.1
+  puppeteer-extra-plugin-stealth: 2.9.0_puppeteer-extra@3.2.3
   ts-jest: 27.0.7_aef808ccf176041fad81d5156f2a84a6
   typescript: 4.5.2
   web-ext: 6.6.0
@@ -1599,6 +1603,12 @@ packages:
       '@babel/types': 7.16.0
     dev: true
 
+  /@types/debug/4.1.7:
+    resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
+    dependencies:
+      '@types/ms': 0.7.31
+    dev: true
+
   /@types/eslint-scope/3.7.1:
     resolution: {integrity: sha512-SCFeogqiptms4Fg29WpOTk5nHIzfpKCemSN63ksBQYKTcXoJEmJagV+DhVmbapZzY4/5YaOV1nZwrsU79fFm1g==}
     dependencies:
@@ -1662,8 +1672,16 @@ packages:
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
     dev: true
 
+  /@types/ms/0.7.31:
+    resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
+    dev: true
+
   /@types/node/16.11.11:
     resolution: {integrity: sha512-KB0sixD67CeecHC33MYn+eYARkqTheIRNuu97y2XMjR7Wu3XibO1vaY6VBV6O/a89SPI81cEUIYT87UqUWlZNw==}
+    dev: true
+
+  /@types/node/16.11.12:
+    resolution: {integrity: sha512-+2Iggwg7PxoO5Kyhvsq9VarmPbIelXP070HMImEpbtGCoyWNINQj4wzjbQCXzdHTRXnqufutJb5KAURZANNBAw==}
     dev: true
 
   /@types/parse5/6.0.3:
@@ -1672,6 +1690,12 @@ packages:
 
   /@types/prettier/2.4.2:
     resolution: {integrity: sha512-ekoj4qOQYp7CvjX8ZDBgN86w3MqQhLE1hczEJbEIjgFEumDy+na/4AJAbLXfgEWFNB2pKadM5rPFtuSGMWK7xA==}
+    dev: true
+
+  /@types/puppeteer/5.4.4:
+    resolution: {integrity: sha512-3Nau+qi69CN55VwZb0ATtdUAlYlqOOQ3OfQfq0Hqgc4JMFXiQT/XInlwQ9g6LbicDslE6loIFsXFklGh5XmI6Q==}
+    dependencies:
+      '@types/node': 16.11.12
     dev: true
 
   /@types/stack-utils/2.0.1:
@@ -2065,6 +2089,11 @@ packages:
 
   /argparse/2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
+    dev: true
+
+  /arr-union/3.1.0:
+    resolution: {integrity: sha1-45sJrqne+Gao8gbiiK9jkZuuOcQ=}
+    engines: {node: '>=0.10.0'}
     dev: true
 
   /array-differ/3.0.0:
@@ -2540,6 +2569,17 @@ packages:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
+    dev: true
+
+  /clone-deep/0.2.4:
+    resolution: {integrity: sha1-TnPdCen7lxzDhnDF3O2cGJZIHMY=}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      for-own: 0.1.5
+      is-plain-object: 2.0.4
+      kind-of: 3.2.2
+      lazy-cache: 1.0.4
+      shallow-clone: 0.1.2
     dev: true
 
   /clone-deep/4.0.1:
@@ -3433,6 +3473,23 @@ packages:
         optional: true
     dev: false
 
+  /for-in/0.1.8:
+    resolution: {integrity: sha1-2Hc5COMSVhCZUrH9ubP6hn0ndeE=}
+    engines: {node: '>=0.10.0'}
+    dev: true
+
+  /for-in/1.0.2:
+    resolution: {integrity: sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=}
+    engines: {node: '>=0.10.0'}
+    dev: true
+
+  /for-own/0.1.5:
+    resolution: {integrity: sha1-UmXGgaTylNq78XyVCbZ2OqhFEM4=}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      for-in: 1.0.2
+    dev: true
+
   /forever-agent/0.6.1:
     resolution: {integrity: sha1-+8cfDEGt6zf5bFd60e1C2P2sypE=}
     dev: true
@@ -3466,6 +3523,15 @@ packages:
 
   /fs-constants/1.0.0:
     resolution: {integrity: sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==}
+    dev: true
+
+  /fs-extra/10.0.0:
+    resolution: {integrity: sha512-C5owb14u9eJwizKGdchcDUQeFtlSHHthBk8pbX9Vc1PFZrLombudjDnNns88aYslCyF6IY5SUw3Roz6xShcEIQ==}
+    engines: {node: '>=12'}
+    dependencies:
+      graceful-fs: 4.2.8
+      jsonfile: 6.1.0
+      universalify: 2.0.0
     dev: true
 
   /fs-extra/9.0.1:
@@ -3909,6 +3975,10 @@ packages:
     dev: true
     optional: true
 
+  /is-buffer/1.1.6:
+    resolution: {integrity: sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==}
+    dev: true
+
   /is-ci/2.0.0:
     resolution: {integrity: sha512-YfJT7rkpQB0updsdHLGWrvhBJfcfzNNawYDNIyQXJz0IViGf75O8EBPKSdvw2rF+LGCsX4FZ8tcr3b19LcZq4w==}
     hasBin: true
@@ -3933,6 +4003,11 @@ packages:
     resolution: {integrity: sha512-F+i2BKsFrH66iaUFc0woD8sLy8getkwTwtOBjvs56Cx4CgJDeKQeqfz8wAYiSb8JOprWhHH5p77PbmYCvvUuXQ==}
     engines: {node: '>=8'}
     hasBin: true
+    dev: true
+
+  /is-extendable/0.1.1:
+    resolution: {integrity: sha1-YrEQ4omkcUGOPsNqYX1HLjAd/Ik=}
+    engines: {node: '>=0.10.0'}
     dev: true
 
   /is-extglob/2.1.1:
@@ -4823,6 +4898,20 @@ packages:
       json-buffer: 3.0.0
     dev: true
 
+  /kind-of/2.0.1:
+    resolution: {integrity: sha1-AY7HpM5+OobLkUG+UZ0kyPqpgbU=}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      is-buffer: 1.1.6
+    dev: true
+
+  /kind-of/3.2.2:
+    resolution: {integrity: sha1-MeohpzS6ubuw8yRm2JOupR5KPGQ=}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      is-buffer: 1.1.6
+    dev: true
+
   /kind-of/6.0.3:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
@@ -4838,6 +4927,16 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       package-json: 6.5.0
+    dev: true
+
+  /lazy-cache/0.2.7:
+    resolution: {integrity: sha1-f+3fLctu23fRHvHRF6tf/fCrG2U=}
+    engines: {node: '>=0.10.0'}
+    dev: true
+
+  /lazy-cache/1.0.4:
+    resolution: {integrity: sha1-odePw6UEdMuAhF07O24dpJpEbo4=}
+    engines: {node: '>=0.10.0'}
     dev: true
 
   /lcid/3.1.1:
@@ -5012,6 +5111,15 @@ packages:
       p-is-promise: 2.1.0
     dev: true
 
+  /merge-deep/3.0.3:
+    resolution: {integrity: sha512-qtmzAS6t6grwEkNrunqTBdn0qKwFgNWvlxUbAV8es9M7Ot1EbyApytCnvE0jALPa46ZpKDUo527kKiaWplmlFA==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      arr-union: 3.1.0
+      clone-deep: 0.2.4
+      kind-of: 3.2.2
+    dev: true
+
   /merge-stream/2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
     dev: true
@@ -5054,6 +5162,14 @@ packages:
 
   /minimist/1.2.5:
     resolution: {integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==}
+    dev: true
+
+  /mixin-object/2.0.1:
+    resolution: {integrity: sha1-T7lJRB2rGCVA8f4DW6YOGUel5X4=}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      for-in: 0.1.8
+      is-extendable: 0.1.1
     dev: true
 
   /mkdirp-classic/0.5.3:
@@ -5545,6 +5661,72 @@ packages:
       escape-goat: 2.1.1
     dev: true
 
+  /puppeteer-extra-plugin-stealth/2.9.0_puppeteer-extra@3.2.3:
+    resolution: {integrity: sha512-erZ9lkIcOkfYmLPP2jv2AiqvNBFhQJinWJhcm40pqSjwJTsZXHsTARUyRCsBYEEBvNIs3Wz3E0zVlTRc4IJ6Hg==}
+    engines: {node: '>=8'}
+    dependencies:
+      debug: 4.3.3
+      puppeteer-extra-plugin: 3.2.0_puppeteer-extra@3.2.3
+      puppeteer-extra-plugin-user-preferences: 2.3.1_puppeteer-extra@3.2.3
+    transitivePeerDependencies:
+      - puppeteer-extra
+      - supports-color
+    dev: true
+
+  /puppeteer-extra-plugin-user-data-dir/2.3.1_puppeteer-extra@3.2.3:
+    resolution: {integrity: sha512-yhaYMaNFdfQ1LbA94ZElW1zU8rh+MFmO+GZA0gtQ8BXc+UZ6aRrWS9flIZvlXDzk+ZsXhCbTEohEwZ8lEDLRVA==}
+    engines: {node: '>=8'}
+    dependencies:
+      debug: 4.3.3
+      fs-extra: 10.0.0
+      puppeteer-extra-plugin: 3.2.0_puppeteer-extra@3.2.3
+    transitivePeerDependencies:
+      - puppeteer-extra
+      - supports-color
+    dev: true
+
+  /puppeteer-extra-plugin-user-preferences/2.3.1_puppeteer-extra@3.2.3:
+    resolution: {integrity: sha512-t/FyGQj2aqtHOROqL02z+k2kNQe0cjT0Hd9pG5FJ7x0JXx1722PhOuK7FeJLQMJ+BLl2YvCUgaWSC8Zohjts5A==}
+    engines: {node: '>=8'}
+    dependencies:
+      debug: 4.3.3
+      deepmerge: 4.2.2
+      puppeteer-extra-plugin: 3.2.0_puppeteer-extra@3.2.3
+      puppeteer-extra-plugin-user-data-dir: 2.3.1_puppeteer-extra@3.2.3
+    transitivePeerDependencies:
+      - puppeteer-extra
+      - supports-color
+    dev: true
+
+  /puppeteer-extra-plugin/3.2.0_puppeteer-extra@3.2.3:
+    resolution: {integrity: sha512-wbiw12USE3b+maMk/IMaroYsz7rusVI9G+ml6pCFCnFFh91Z9BAEiVzhCpOHuquVXEiCCsDTWhDUgvdNxQHOyw==}
+    engines: {node: '>=9.11.2'}
+    peerDependencies:
+      puppeteer-extra: '*'
+    dependencies:
+      '@types/debug': 4.1.7
+      debug: 4.3.3
+      merge-deep: 3.0.3
+      puppeteer-extra: 3.2.3_puppeteer@12.0.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /puppeteer-extra/3.2.3_puppeteer@12.0.1:
+    resolution: {integrity: sha512-CnSN9yIedbAbS8WmRybaDHJLf6goRk+VYM/kbH6i/+EMadCaAeh2O+1/mFUMN2LbkbDNAp2Vd/UwrTVCHjTxyg==}
+    engines: {node: '>=8'}
+    peerDependencies:
+      puppeteer: '*'
+    dependencies:
+      '@types/debug': 4.1.7
+      '@types/puppeteer': 5.4.4
+      debug: 4.3.3
+      deepmerge: 4.2.2
+      puppeteer: 12.0.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /puppeteer/12.0.1:
     resolution: {integrity: sha512-YQ3GRiyZW0ddxTW+iiQcv2/8TT5c3+FcRUCg7F8q2gHqxd5akZN400VRXr9cHQKLWGukmJLDiE72MrcLK9tFHQ==}
     engines: {node: '>=10.18.1'}
@@ -5904,6 +6086,16 @@ packages:
     dependencies:
       inherits: 2.0.4
       safe-buffer: 5.2.1
+    dev: true
+
+  /shallow-clone/0.1.2:
+    resolution: {integrity: sha1-WQnodLp3EG1zrEFM/sH/yofZcGA=}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      is-extendable: 0.1.1
+      kind-of: 2.0.1
+      lazy-cache: 0.2.7
+      mixin-object: 2.0.1
     dev: true
 
   /shallow-clone/3.0.1:

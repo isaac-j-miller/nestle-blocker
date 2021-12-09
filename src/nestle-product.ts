@@ -1,12 +1,11 @@
 import axios from "axios";
-import { JSDOM } from "jsdom";
 import { normalize } from "./util";
 
 const knownBrands = ["la lechera", "abuelita", "nestle"];
 export class NestleBrandGetter {
   private constructor() {}
   private static brands: Set<string> = new Set<string>();
-  private static document?: Document;
+  private static document: Document;
   static isNestleBrand(brand: string) {
     if (!NestleBrandGetter.brands.size) {
       throw new Error(`Not initialized!`);
@@ -18,7 +17,7 @@ export class NestleBrandGetter {
   }
   private static parse(str: string): string[] {
     const foundBrands: string[] = [];
-    const doc = NestleBrandGetter.document ?? new JSDOM(str).window.document;
+    const doc = NestleBrandGetter.document;
     const el = doc.createElement("html");
     el.innerHTML = str;
     const listItems = doc.evaluate(
@@ -52,7 +51,7 @@ export class NestleBrandGetter {
     }
     return foundBrands;
   }
-  static async getNestleBrands(doc?: Document) {
+  static async getNestleBrands(doc: Document) {
     NestleBrandGetter.document = doc;
     if (NestleBrandGetter.brands.size > 0) {
       console.debug(
@@ -66,7 +65,6 @@ export class NestleBrandGetter {
     const text = resp.data;
     console.debug("request sucess");
     const brands = NestleBrandGetter.parse(text);
-
     [...brands, ...knownBrands].forEach((b) =>
       NestleBrandGetter.brands.add(normalize(b))
     );
