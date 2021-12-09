@@ -43,7 +43,7 @@ describe("integration tests", () => {
     axios.defaults.adapter = require("axios/lib/adapters/http");
     puppeteer.use(StealthPlugin());
     browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       args: [
         "--disable-web-security",
         "--disable-features=IsolateOrigins",
