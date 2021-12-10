@@ -4,9 +4,6 @@ name: Integration tests
 
 # Controls when the workflow will run
 on:
-  schedule:
-    - cron: "0 8 * * 1"
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -29,6 +26,13 @@ jobs:
           curl -f https://get.pnpm.io/v6.7.js | node - add --global pnpm
           pnpm install
 
+      - name: Run checks
+        run: |
+          pnpm tsc
+          pnpm prettier-check
+          pnpm lint
+          pnpm test
+
       - name: Run integration tests
         run: pnpm test-intgr
 
@@ -38,3 +42,6 @@ jobs:
           name: build-failures
           path: tmp/
           if-no-files-found: warn
+
+      - name: publish extension
+        run: pnpm publish
