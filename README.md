@@ -1,3 +1,5 @@
+[![CI](https://github.com/isaac-j-miller/nestle-blocker/actions/workflows/branch-check.yml/badge.svg?branch=main)](https://github.com/isaac-j-miller/nestle-blocker/actions/workflows/branch-check.yml) [![Integration tests](https://github.com/isaac-j-miller/nestle-blocker/actions/workflows/intgr-test.yml/badge.svg?branch=main)](https://github.com/isaac-j-miller/nestle-blocker/actions/workflows/intgr-test.yml)
+
 # nestle-blocker
 
 This add-on marks products sold under Nestle-affiliated brands with a red X to promote consumer awareness and to assist consumers in boycotting nestle products.
