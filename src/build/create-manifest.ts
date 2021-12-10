@@ -14,6 +14,14 @@ type FirefoxAddonManifest = {
   description: string;
   content_scripts: ContentScript[];
   permissions: string[];
+  homepage_url: string;
+};
+type TruncatedPackageJson = {
+  version: string;
+  description: string;
+  name: string;
+  homepage: string;
+  main: string;
 };
 
 function getUrls(): string[] {
@@ -24,14 +32,19 @@ const logger = new Logger("build");
 
 function main() {
   const hosts = getUrls();
+  const packageJsonStr = fs.readFileSync("package.json", {
+    encoding: "utf-8",
+  });
+  const parsedPackageJson = JSON.parse(packageJsonStr) as TruncatedPackageJson;
   const manifest: FirefoxAddonManifest = {
     manifest_version: 2,
-    name: "NestleBlocker",
-    version: "1.0",
-    description: "Hides Nestle products from grocery store websites",
+    name: parsedPackageJson.name,
+    version: parsedPackageJson.version,
+    homepage_url: parsedPackageJson.homepage,
+    description: parsedPackageJson.description,
     content_scripts: hosts.map(h => ({
       matches: [h],
-      js: ["./content-script.js"],
+      js: [parsedPackageJson.main],
     })),
     permissions: ["webRequest", ...hosts, "https://*.wikipedia.org/*"],
   };

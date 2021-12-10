@@ -1,8 +1,8 @@
 {
   "name": "nestle-blocker",
   "version": "1.0.0",
-  "description": "Blocks nestle products from grocery store sites",
-  "main": "nestle-blocker.js",
+  "description": "Marks nestle products on grocery store sites",
+  "main": "./content-script.js",
   "scripts": {
     "test": "jest",
     "test-inspect": "node --inspect ./node_modules/jest/bin/jest.js",
