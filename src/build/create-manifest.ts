@@ -15,12 +15,14 @@ type FirefoxAddonManifest = {
   content_scripts: ContentScript[];
   permissions: string[];
   homepage_url: string;
+  author: string;
 };
 type TruncatedPackageJson = {
   version: string;
   description: string;
   name: string;
   homepage: string;
+  author: string;
   main: string;
 };
 
@@ -42,6 +44,7 @@ function main() {
     version: parsedPackageJson.version,
     homepage_url: parsedPackageJson.homepage,
     description: parsedPackageJson.description,
+    author: parsedPackageJson.author,
     content_scripts: hosts.map(h => ({
       matches: [h],
       js: [parsedPackageJson.main],
