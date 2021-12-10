@@ -105,3 +105,6 @@ dist
 
 # web-ext
 web-ext-artifacts/
+
+# tmp
+tmp/

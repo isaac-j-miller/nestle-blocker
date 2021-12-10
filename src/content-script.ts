@@ -1,6 +1,7 @@
 import { getUiGrocerUtils } from "./ui-grocer-utils/factory";
 import { NestleBrandGetter } from "./nestle-product";
 import { getGrocerFromHost } from "./grocers";
+import { Logger, LogLevel } from "./logger";
 
 const nestleCss = `
 .anti-nestle {
@@ -34,15 +35,23 @@ const nestleCss = `
 }
 `;
 
+Logger.level = LogLevel.INFO;
+const logger = new Logger("content-script");
 async function entrypoint() {
-  console.info("Init plugin");
-  await NestleBrandGetter.getNestleBrands(document);
-  const grocerId = getGrocerFromHost(window.location.host);
-  if (!grocerId) {
-    console.warn(`failed to find grocer from host ${window.location.host}`);
+  logger.info("Init plugin");
+  try {
+    await NestleBrandGetter.getNestleBrands(document);
+  } catch (e) {
+    logger.error(e);
+    logger.error("unable to fetch nestle brand list; shutting down...");
     return;
   }
-  console.info(`Identified grocer: ${grocerId}, instantiating utils...`);
+  const grocerId = getGrocerFromHost(window.location.host);
+  if (!grocerId) {
+    logger.warn(`failed to find grocer from host ${window.location.host}`);
+    return;
+  }
+  logger.info(`Identified grocer: ${grocerId}, instantiating utils...`);
   const utils = getUiGrocerUtils(grocerId);
   const styleElem = document.createElement("style");
   styleElem.innerHTML = nestleCss;
@@ -50,7 +59,7 @@ async function entrypoint() {
   let mostRecentModifyEvent = 0;
   const minInterval = 3000;
   const modifyElements = () => {
-    console.info(`modifying elements...`);
+    logger.debug(`modifying elements...`);
     utils.modifyElements(document);
     mostRecentModifyEvent = new Date().valueOf();
   };
@@ -59,17 +68,18 @@ async function entrypoint() {
       modifyElements();
     }
   };
-  const eventsToListenToWithTimeLimit = ["click", "scroll"];
+  const eventsToListenToWithTimeLimit = ["click", "scroll", "mousemove"];
+  const eventsToListenToWithDelay = ["submit", "load"];
+  const eventsToListenToWithNoLimit = ["load"];
+
   eventsToListenToWithTimeLimit.forEach((eventType) => {
     window.addEventListener(eventType, modifyElementsWithTimeLimit);
   });
-  const eventsToListenToWithDelay = ["submit", "load"];
   eventsToListenToWithDelay.map((eventType) =>
     window.addEventListener(eventType, () => {
       setTimeout(modifyElements, 1500);
     })
   );
-  const eventsToListenToWithNoLimit = ["load"];
   eventsToListenToWithNoLimit.forEach((eventType) => {
     window.addEventListener(eventType, modifyElements);
   });

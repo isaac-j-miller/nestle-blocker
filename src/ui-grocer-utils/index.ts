@@ -1,22 +1,29 @@
+import { KnownGrocer } from "../grocers";
+import { Logger } from "../logger";
 import { getHasNestleBrand } from "../util";
 
 export type UiGrocerUtilsOptions = {
+  name: KnownGrocer;
   getElements: (doc: Document) => Element[];
   extractBrand: (doc: Document, element: Element) => string | undefined;
 };
 export class UiGrocerUtils {
-  constructor(private options: UiGrocerUtilsOptions) {}
+  private logger: Logger;
+  constructor(private options: UiGrocerUtilsOptions) {
+    this.logger = new Logger(options.name);
+  }
   modifyElements(doc: Document) {
+    const { logger } = this;
     const { getElements, extractBrand } = this.options;
-    console.info(`modifying elements`);
+    logger.debug(`modifying elements`);
     const elements = getElements(doc);
-    console.info(`found ${elements.length} elements`);
+    logger.info(`found ${elements.length} elements`);
     elements.forEach((el) => {
       const brand = extractBrand(doc, el);
-      // console.log(el, brand);
-      const isNestle = getHasNestleBrand(brand);
+      logger.debug(el, brand);
+      const isNestle = getHasNestleBrand(brand, logger);
       if (isNestle) {
-        console.info(
+        logger.debug(
           `found nestle element (item: ${brand?.trim()}, brandMatch: ${isNestle})`
         );
         el.classList.add("anti-nestle");

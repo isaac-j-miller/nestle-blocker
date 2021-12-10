@@ -1,3 +1,4 @@
+import { Logger } from "./logger";
 import { NestleBrandGetter } from "./nestle-product";
 
 const normalize = (str: string) => {
@@ -69,14 +70,14 @@ const deleteRecursive = (obj: any, path: string[]) => {
   }
   return obj;
 };
-function getHasNestleBrand(brandName: string | undefined) {
+function getHasNestleBrand(brandName: string | undefined, logger: Logger) {
   if (!brandName || typeof brandName !== "string") {
     return false;
   }
   const normalized = normalize(brandName);
   const brands = NestleBrandGetter.getBrands();
   const startsWithNestle = includesAny(normalized, brands);
-  console.debug(normalized, startsWithNestle);
+  logger.debug(normalized, startsWithNestle);
   return startsWithNestle;
 }
 export {

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Logger } from "./logger";
 import { normalize } from "./util";
 
 const knownBrands = ["la lechera", "abuelita", "nestle"];
@@ -6,6 +7,7 @@ export class NestleBrandGetter {
   private constructor() {}
   private static brands: Set<string> = new Set<string>();
   private static document: Document;
+  private static logger: Logger = new Logger("nestle-product-getter");
   static isNestleBrand(brand: string) {
     if (!NestleBrandGetter.brands.size) {
       throw new Error(`Not initialized!`);
@@ -16,6 +18,7 @@ export class NestleBrandGetter {
     return Array.from(this.brands);
   }
   private static parse(str: string): string[] {
+    const { logger } = NestleBrandGetter;
     const foundBrands: string[] = [];
     const doc = NestleBrandGetter.document;
     const el = doc.createElement("html");
@@ -43,7 +46,7 @@ export class NestleBrandGetter {
       }
       if (brandName) {
         foundBrands.push(brandName);
-        console.debug(
+        logger.debug(
           `Found brand name. raw text: ${text}, brandName: ${brandName}`
         );
       }
@@ -52,9 +55,10 @@ export class NestleBrandGetter {
     return foundBrands;
   }
   static async getNestleBrands(doc: Document) {
+    const { logger } = NestleBrandGetter;
     NestleBrandGetter.document = doc;
     if (NestleBrandGetter.brands.size > 0) {
-      console.debug(
+      logger.debug(
         `Cache already has ${NestleBrandGetter.brands.size} entries, not attempting second request`
       );
       return;
@@ -63,12 +67,12 @@ export class NestleBrandGetter {
       "https://en.wikipedia.org/wiki/List_of_Nestl%C3%A9_brands"
     );
     const text = resp.data;
-    console.debug("request sucess");
+    logger.debug("request sucess");
     const brands = NestleBrandGetter.parse(text);
     [...brands, ...knownBrands].forEach((b) =>
       NestleBrandGetter.brands.add(normalize(b))
     );
-    console.debug(
+    logger.debug(
       `Found list of ${
         NestleBrandGetter.brands.size
       } nestle brands: ${NestleBrandGetter.getBrands()}`

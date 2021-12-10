@@ -1,4 +1,5 @@
 import fs from "fs";
+import { Logger } from "../logger";
 import prettier from "prettier";
 import { grocerHostMap } from "../grocers";
 
@@ -19,6 +20,8 @@ function getUrls(): string[] {
   return Object.values(grocerHostMap).map((host) => `*://*.${host}/*`);
 }
 
+const logger = new Logger("build");
+
 function main() {
   const hosts = getUrls();
   const manifest: FirefoxAddonManifest = {
@@ -37,7 +40,7 @@ function main() {
     parser: "json",
   });
   const manifestPath = "dist/web/manifest.json";
-  console.info("Emitting new manifest.json...");
+  logger.info("Emitting new manifest.json...");
   fs.writeFileSync(manifestPath, prettified, { encoding: "utf-8" });
 }
 

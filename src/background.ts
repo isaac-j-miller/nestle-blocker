@@ -2,6 +2,9 @@ import browser, { WebRequest } from "webextension-polyfill";
 import { ApiGrocerUtils } from "./api-grocer-utils";
 import { getApiGrocerUtils, knownApiGrocers } from "./api-grocer-utils/factory";
 import { NestleBrandGetter } from "./nestle-product";
+import { Logger } from "./logger";
+
+const logger = new Logger("background");
 
 function getListener(
   grocerUtils: ApiGrocerUtils
@@ -16,7 +19,7 @@ function getListener(
     let encoder = new TextEncoder();
     let body = "";
     filter.onstart = () => {
-      console.debug(`intercepting request: ${details.url}`);
+      logger.debug(`intercepting request: ${details.url}`);
     };
     filter.ondata = (event) => {
       const str = decoder.decode(event.data, { stream: true });
@@ -31,7 +34,7 @@ function getListener(
         filter.disconnect();
         return;
       }
-      console.log(jsonData);
+      logger.debug(jsonData);
       const filtered = grocerUtils.deleteNestlePaths(jsonData);
       const asStr = JSON.stringify(filtered);
       filter.write(encoder.encode(asStr));
@@ -43,7 +46,7 @@ function getListener(
 }
 const BLOCK_FROM_API = false;
 async function entrypoint() {
-  console.info("Init plugin");
+  logger.info("Init plugin");
   if (BLOCK_FROM_API) {
     await NestleBrandGetter.getNestleBrands(document);
     knownApiGrocers.forEach((name) => {
@@ -56,7 +59,7 @@ async function entrypoint() {
           { urls: [url] },
           ["blocking"]
         );
-        console.info(`Listener added for ${name}`);
+        logger.info(`Listener added for ${name}`);
       });
     });
   }

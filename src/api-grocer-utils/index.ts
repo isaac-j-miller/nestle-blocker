@@ -1,3 +1,4 @@
+import { Logger } from "../logger";
 import { getHasNestleBrand, getRecursive, setRecursive } from "../util";
 
 export type ApiGrocerUtilsOptions = {
@@ -6,8 +7,12 @@ export type ApiGrocerUtilsOptions = {
   productPath: string[];
 };
 export class ApiGrocerUtils {
-  constructor(protected options: ApiGrocerUtilsOptions) {}
+  private logger: Logger;
+  constructor(protected options: ApiGrocerUtilsOptions) {
+    this.logger = new Logger("api-grocer");
+  }
   getBrandName(obj: any): string | undefined {
+    const { logger } = this;
     if (!obj) {
       return undefined;
     }
@@ -20,7 +25,7 @@ export class ApiGrocerUtils {
         }
       }
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       return undefined;
     }
     return undefined;
@@ -28,19 +33,20 @@ export class ApiGrocerUtils {
 
   deleteNestlePaths(obj: any) {
     const { productPath } = this.options;
+    const { logger } = this;
     const products: object[] = getRecursive(obj, productPath);
     let removedProducts = 0;
-    console.info(`Found ${products.length} products`);
+    logger.debug(`Found ${products.length} products`);
     const filteredProducts = products.filter((product) => {
       const brandName = this.getBrandName(product);
-      const isNestleBrand = getHasNestleBrand(brandName);
-      console.debug(`${brandName}: ${isNestleBrand}`);
+      const isNestleBrand = getHasNestleBrand(brandName, logger);
+      logger.debug(`${brandName}: ${isNestleBrand}`);
       if (isNestleBrand) {
         removedProducts++;
       }
       return !isNestleBrand;
     });
-    console.info(`Found ${removedProducts} nestle products to remove`);
+    logger.debug(`Found ${removedProducts} nestle products to remove`);
     return setRecursive(obj, productPath, filteredProducts);
   }
   public get listenUrl(): string {
