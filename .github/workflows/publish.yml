@@ -45,4 +45,4 @@ jobs:
         env:
           WEXT_SHIPIT_FIREFOX_JWT_ISSUER: ${{ secrets.WEXT_SHIPIT_FIREFOX_JWT_ISSUER }}
           WEXT_SHIPIT_FIREFOX_JWT_SECRET: ${{ secrets.WEXT_SHIPIT_FIREFOX_JWT_SECRET }}
-        run: pnpm publish
+        run: pnpm publish-ext
