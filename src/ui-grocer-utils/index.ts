@@ -18,14 +18,12 @@ export class UiGrocerUtils {
     logger.debug(`modifying elements`);
     const elements = getElements(doc);
     logger.info(`found ${elements.length} elements`);
-    elements.forEach((el) => {
+    elements.forEach(el => {
       const brand = extractBrand(doc, el);
       logger.debug(el, brand);
       const isNestle = getHasNestleBrand(brand, logger);
       if (isNestle) {
-        logger.debug(
-          `found nestle element (item: ${brand?.trim()}, brandMatch: ${isNestle})`
-        );
+        logger.debug(`found nestle element (item: ${brand?.trim()}, brandMatch: ${isNestle})`);
         el.classList.add("anti-nestle");
       }
     });

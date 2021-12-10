@@ -4,7 +4,9 @@ import { normalize } from "./util";
 
 const knownBrands = ["la lechera", "abuelita", "nestle"];
 export class NestleBrandGetter {
-  private constructor() {}
+  private constructor() {
+    /** should not be instantiated */
+  }
   private static brands: Set<string> = new Set<string>();
   private static document: Document;
   private static logger: Logger = new Logger("nestle-product-getter");
@@ -23,32 +25,22 @@ export class NestleBrandGetter {
     const doc = NestleBrandGetter.document;
     const el = doc.createElement("html");
     el.innerHTML = str;
-    const listItems = doc.evaluate(
-      "//div[contains(@class,'div-col')]/ul/li",
-      el,
-      null,
-      4
-    );
+    const listItems = doc.evaluate("//div[contains(@class,'div-col')]/ul/li", el, null, 4);
     let listItem = listItems.iterateNext();
     while (listItem) {
       const elem = doc.createElement("span");
       elem.innerHTML = (listItem as Element).innerHTML;
       const text = elem.innerText ?? elem.textContent;
       elem.remove();
-      const firstNonNameIndex = Array.from(text).findIndex((value) =>
-        "[(".includes(value)
-      );
-      const indexToSlice =
-        firstNonNameIndex === -1 ? text.length : firstNonNameIndex;
+      const firstNonNameIndex = Array.from(text).findIndex(value => "[(".includes(value));
+      const indexToSlice = firstNonNameIndex === -1 ? text.length : firstNonNameIndex;
       let brandName = text.slice(0, indexToSlice).trim();
       if (brandName.includes("\n")) {
         brandName = brandName.split("\n")[0];
       }
       if (brandName) {
         foundBrands.push(brandName);
-        logger.debug(
-          `Found brand name. raw text: ${text}, brandName: ${brandName}`
-        );
+        logger.debug(`Found brand name. raw text: ${text}, brandName: ${brandName}`);
       }
       listItem = listItems.iterateNext();
     }
@@ -69,9 +61,7 @@ export class NestleBrandGetter {
     const text = resp.data;
     logger.debug("request sucess");
     const brands = NestleBrandGetter.parse(text);
-    [...brands, ...knownBrands].forEach((b) =>
-      NestleBrandGetter.brands.add(normalize(b))
-    );
+    [...brands, ...knownBrands].forEach(b => NestleBrandGetter.brands.add(normalize(b)));
     logger.debug(
       `Found list of ${
         NestleBrandGetter.brands.size

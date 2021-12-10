@@ -6,11 +6,14 @@
   "scripts": {
     "test": "jest",
     "test-inspect": "node --inspect ./node_modules/jest/bin/jest.js",
+    "test-intgr": "JEST_INTGR=1 jest",
+    "test-intgr-inspect": "JEST_INTGR=1 node --inspect ./node_modules/jest/bin/jest.js",
     "prettier": "prettier --write .",
+    "prettier-check": "prettier --check .",
     "tsc": "tsc --noEmit",
     "build": "webpack build && node ./dist/build/create-manifest.js && web-ext build --overwrite-dest --source-dir ./dist/web",
     "start": "pnpm build && web-ext run --source-dir ./dist/web --verbose --",
-    "lint": "web-ext lint"
+    "lint": "eslint . --ext .ts"
   },
   "repository": {
     "type": "git",
@@ -36,8 +39,13 @@
     "@types/jsdom": "^16.2.13",
     "@types/mkdirp": "^1.0.2",
     "@types/webextension-polyfill": "^0.8.2",
+    "@typescript-eslint/eslint-plugin": "^5.6.0",
+    "@typescript-eslint/experimental-utils": "^5.6.0",
+    "@typescript-eslint/parser": "^5.6.0",
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",
+    "eslint": "^8.4.1",
+    "eslint-config-prettier": "^8.3.0",
     "jest": "^27.4.3",
     "jsdom": "^19.0.0",
     "mkdirp": "^1.0.4",

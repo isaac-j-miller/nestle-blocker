@@ -7,12 +7,7 @@ export enum LogLevel {
   ERROR,
 }
 const LogLevels = ["debug", "info", "warn", "error"] as const;
-const colorLevels = [
-  chalk.green,
-  chalk.magenta,
-  chalk.yellow,
-  chalk.red,
-] as const;
+const colorLevels = [chalk.green, chalk.magenta, chalk.yellow, chalk.red] as const;
 export class Logger {
   public static level: LogLevel = LogLevel.DEBUG;
   constructor(private source: string) {}
@@ -23,11 +18,7 @@ export class Logger {
     const stringLogLevel = LogLevels[level];
     const color = colorLevels[level];
     console[stringLogLevel](
-      color(
-        `${new Date().toISOString()} ${stringLogLevel.toUpperCase()} [${
-          this.source
-        }]\t`
-      ),
+      color(`${new Date().toISOString()} ${stringLogLevel.toUpperCase()} [${this.source}]\t`),
       ...msgs
     );
   }

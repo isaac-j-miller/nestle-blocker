@@ -7,68 +7,52 @@ export function getUiGrocerUtils(grocer: KnownGrocer): UiGrocerUtils {
     case "kroger":
       return new UiGrocerUtils({
         name,
-        getElements: (doc) =>
-          Array.from(doc.getElementsByClassName("ProductCard")),
+        getElements: doc => Array.from(doc.getElementsByClassName("ProductCard")),
         extractBrand: (doc, el) =>
           Array.from(
-            el.getElementsByClassName("ProductDescription-truncated")[0]
-              .attributes
-          ).filter((a) => a.name === "aria-label")[0].value,
+            el.getElementsByClassName("ProductDescription-truncated")[0].attributes
+          ).filter(a => a.name === "aria-label")[0].value,
       });
     case "giant":
       return new UiGrocerUtils({
         name,
-        getElements: (doc) =>
-          Array.from(doc.getElementsByClassName("product-cell")),
+        getElements: doc => Array.from(doc.getElementsByClassName("product-cell")),
         extractBrand: (doc, el) =>
-          Array.from(el.attributes).filter((a) => a.name === "aria-label")[0]
-            .value,
+          Array.from(el.attributes).filter(a => a.name === "aria-label")[0].value,
       });
     case "safeway":
       return new UiGrocerUtils({
         name,
-        getElements: (doc) =>
-          Array.from(doc.getElementsByClassName("product-item-inner")),
-        extractBrand: (doc, el) =>
-          el.getElementsByClassName("product-title")[0]?.innerHTML,
+        getElements: doc => Array.from(doc.getElementsByClassName("product-item-inner")),
+        extractBrand: (doc, el) => el.getElementsByClassName("product-title")[0]?.innerHTML,
       });
     case "amazon":
       return new UiGrocerUtils({
         name,
-        getElements: (doc) =>
-          Array.from(doc.getElementsByClassName("s-result-item")),
+        getElements: doc => Array.from(doc.getElementsByClassName("s-result-item")),
         extractBrand: (doc, el) =>
-          el.getElementsByClassName(
-            "a-size-base-plus a-color-base a-text-normal"
-          )[0]?.innerHTML,
+          el.getElementsByClassName("a-size-base-plus a-color-base a-text-normal")[0]?.innerHTML,
       });
     case "walmart":
       return new UiGrocerUtils({
         name,
-        getElements: (doc) =>
-          Array.from(
-            doc.getElementsByClassName("relative flex flex-column")
-          ).filter((elem) =>
-            Array.from(elem.attributes).some(
-              (attr) => attr.name === "data-item-id"
-            )
+        getElements: doc =>
+          Array.from(doc.getElementsByClassName("relative flex flex-column")).filter(elem =>
+            Array.from(elem.attributes).some(attr => attr.name === "data-item-id")
           ),
         extractBrand: (doc, el) =>
-          el.getElementsByTagName("a")[0].getElementsByTagName("span")[0]
-            ?.innerHTML,
+          el.getElementsByTagName("a")[0].getElementsByTagName("span")[0]?.innerHTML,
       });
     case "harristeeter":
       return new UiGrocerUtils({
         name,
-        getElements: (doc) =>
-          Array.from(doc.getElementsByClassName("product-main")),
-        extractBrand: (doc, el) =>
-          el.getElementsByClassName("product-name")[0]?.innerHTML,
+        getElements: doc => Array.from(doc.getElementsByClassName("product-main")),
+        extractBrand: (doc, el) => el.getElementsByClassName("product-name")[0]?.innerHTML,
       });
     case "target":
       return new UiGrocerUtils({
         name,
-        getElements: (doc) => {
+        getElements: doc => {
           const xpathExpression =
             "//div[contains(@class, 'ProductCardStyled') or contains(@class, 'AisleCardStyled') or contains(@class, 'StyledProductCardRow')]";
           const xpathResult = doc.evaluate(xpathExpression, doc, null, 4);
@@ -84,7 +68,7 @@ export function getUiGrocerUtils(grocer: KnownGrocer): UiGrocerUtils {
     case "foodcity":
       return new UiGrocerUtils({
         name,
-        getElements: (doc) => {
+        getElements: doc => {
           const xpathExpression =
             "//div[contains(@class, 'card') and contains(@class, '__product') and not(@aria-hidden = 'true')]";
           const xpathResult = doc.evaluate(xpathExpression, doc, null, 4);
@@ -96,22 +80,19 @@ export function getUiGrocerUtils(grocer: KnownGrocer): UiGrocerUtils {
           return nodes as Element[];
         },
         extractBrand: (doc, el) =>
-          el
-            .getElementsByClassName("tile-item__product__brand")[0]
-            ?.getElementsByTagName("span")[0]?.innerHTML,
+          el.getElementsByClassName("tile-item__product__brand")[0]?.getElementsByTagName("span")[0]
+            ?.innerHTML,
       });
     case "foodlion":
       return new UiGrocerUtils({
         name,
-        getElements: (doc) =>
-          Array.from(doc.getElementsByClassName("cell product-cell")),
-        extractBrand: (doc, el) =>
-          el.getElementsByClassName("cell-title-text")[0]?.innerHTML,
+        getElements: doc => Array.from(doc.getElementsByClassName("cell product-cell")),
+        extractBrand: (doc, el) => el.getElementsByClassName("cell-title-text")[0]?.innerHTML,
       });
     case "instacart":
       return new UiGrocerUtils({
         name,
-        getElements: (doc) => {
+        getElements: doc => {
           const xpathExpression = "//div[@data-testid='item-card-border']";
           const xpathResult = doc.evaluate(xpathExpression, doc, null, 4);
           let currentNode = undefined;
@@ -122,8 +103,8 @@ export function getUiGrocerUtils(grocer: KnownGrocer): UiGrocerUtils {
           return nodes as Element[];
         },
         extractBrand: (doc, el) =>
-          doc.evaluate("div/a//div[string(@title)]", el, null, 4).iterateNext()
-            ?.textContent ?? undefined,
+          doc.evaluate("div/a//div[string(@title)]", el, null, 4).iterateNext()?.textContent ??
+          undefined,
       });
 
     default:

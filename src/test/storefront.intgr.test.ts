@@ -51,9 +51,7 @@ describe("integration tests", () => {
     puppeteer.use(AdBlocker({ blockTrackers: true }));
     const noHeadless = String(process.env.NO_HEADLESS) === "1";
     const headless = !noHeadless;
-    logger.info(
-      `starting in ${headless ? "headless" : "non-headless"} mode...`
-    );
+    logger.info(`starting in ${headless ? "headless" : "non-headless"} mode...`);
     browser = await puppeteer.launch({
       headless,
       args: [
@@ -116,8 +114,7 @@ describe("integration tests", () => {
               delay: 100,
             });
             await addrInput?.press("Enter");
-            const firstResSelector =
-              "//button[contains(@class, 'AddressResults')]";
+            const firstResSelector = "//button[contains(@class, 'AddressResults')]";
             await page.waitForXPath(firstResSelector);
             const firstRes = Array.from(await page.$x(firstResSelector))[0];
             await firstRes.click();
@@ -129,38 +126,30 @@ describe("integration tests", () => {
             const retailerCardSelector =
               "//button[contains(@class, 'RetailerCard') and //p[contains(text(), 'Wegmans')]]";
             await page.waitForXPath(retailerCardSelector);
-            const retailerCard = Array.from(
-              await page.$x(retailerCardSelector)
-            )[3];
+            const retailerCard = Array.from(await page.$x(retailerCardSelector))[3];
             await retailerCard.click();
             await waitForNetworkIdle(page);
-            const storeButtonSelector =
-              "//div[@aria-label='Pickup Locations']/button";
+            const storeButtonSelector = "//div[@aria-label='Pickup Locations']/button";
             await page.waitForXPath(storeButtonSelector);
-            const storeButton = Array.from(
-              await page.$x(storeButtonSelector)
-            )[3];
+            const storeButton = Array.from(await page.$x(storeButtonSelector))[3];
             await storeButton.click();
             await waitForNetworkIdle(page);
-            await page.goto(
-              "https://www.instacart.com/store/wegmans/search/nestle"
-            );
+            await page.goto("https://www.instacart.com/store/wegmans/search/nestle");
             try {
-              const modalSelector =
-                "//div[@class=ReactModal__Overlay]//button[/svg]";
+              const modalSelector = "//div[@class=ReactModal__Overlay]//button[/svg]";
               await page.waitForXPath(modalSelector, {
                 timeout: 3000,
               });
 
               const modalDismiss = Array.from(await page.$x(modalSelector))[0];
               await modalDismiss.click();
-            } catch {}
+            } catch (e) {
+              logger.warn(e);
+            }
             await page.waitForXPath("//div[@data-testid='item-card-border']");
           }
         } catch (err) {
-          logger.error(
-            `saving screenshot because of error while testing ${store}...`
-          );
+          logger.error(`saving screenshot because of error while testing ${store}...`);
           await mkdirp(`tmp/errors/${store}`);
           await page.screenshot({
             path: `tmp/errors/${store}/${new Date().toISOString()}-screenshot.png`,
@@ -175,9 +164,7 @@ describe("integration tests", () => {
         utils.modifyElements(document);
         const flagged = document.getElementsByClassName("anti-nestle");
         if (flagged.length < 1) {
-          logger.error(
-            `saving screenshot because of failure while testing ${store}...`
-          );
+          logger.error(`saving screenshot because of failure while testing ${store}...`);
           await mkdirp(`tmp/failures/${store}`);
           await page.screenshot({
             path: `tmp/failures/${store}/${new Date().toISOString()}-screenshot.png`,

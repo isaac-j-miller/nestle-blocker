@@ -72,15 +72,15 @@ async function entrypoint() {
   const eventsToListenToWithDelay = ["submit", "load"];
   const eventsToListenToWithNoLimit = ["load"];
 
-  eventsToListenToWithTimeLimit.forEach((eventType) => {
+  eventsToListenToWithTimeLimit.forEach(eventType => {
     window.addEventListener(eventType, modifyElementsWithTimeLimit);
   });
-  eventsToListenToWithDelay.map((eventType) =>
+  eventsToListenToWithDelay.map(eventType =>
     window.addEventListener(eventType, () => {
       setTimeout(modifyElements, 1500);
     })
   );
-  eventsToListenToWithNoLimit.forEach((eventType) => {
+  eventsToListenToWithNoLimit.forEach(eventType => {
     window.addEventListener(eventType, modifyElements);
   });
 }

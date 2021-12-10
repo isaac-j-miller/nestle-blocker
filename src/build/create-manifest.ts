@@ -17,7 +17,7 @@ type FirefoxAddonManifest = {
 };
 
 function getUrls(): string[] {
-  return Object.values(grocerHostMap).map((host) => `*://*.${host}/*`);
+  return Object.values(grocerHostMap).map(host => `*://*.${host}/*`);
 }
 
 const logger = new Logger("build");
@@ -29,7 +29,7 @@ function main() {
     name: "NestleBlocker",
     version: "1.0",
     description: "Hides Nestle products from grocery store websites",
-    content_scripts: hosts.map((h) => ({
+    content_scripts: hosts.map(h => ({
       matches: [h],
       js: ["./content-script.js"],
     })),
