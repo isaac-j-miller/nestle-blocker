@@ -16,6 +16,9 @@ type FirefoxAddonManifest = {
   permissions: string[];
   homepage_url: string;
   author: string;
+  gecko: {
+    id: string;
+  };
 };
 type TruncatedPackageJson = {
   version: string;
@@ -50,6 +53,9 @@ function main() {
       js: [parsedPackageJson.main],
     })),
     permissions: ["webRequest", ...hosts, "https://*.wikipedia.org/*"],
+    gecko: {
+      id: "b059eea7-7266-41f9-a5cf-23b8c091f993",
+    },
   };
   const asString = JSON.stringify(manifest, null, 4);
   const prettified = prettier.format(asString, {
