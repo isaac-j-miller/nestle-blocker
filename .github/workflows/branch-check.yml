@@ -39,4 +39,13 @@ jobs:
           pnpm prettier-check
           pnpm lint
           pnpm test
-          pnpm test-intgr
+
+      - name: Run integration tests
+        run: pnpm test-intgr
+
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: build-failures
+          path: tmp/
+          if-no-files-found: warn
