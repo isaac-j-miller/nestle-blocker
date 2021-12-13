@@ -2,13 +2,12 @@
 
 # nestle-blocker
 
-This add-on marks products sold under Nestle-affiliated brands with a red X to promote consumer awareness and to assist consumers in boycotting nestle products.
+This add-on marks products sold under Néstle-affiliated brands with a red X to promote consumer awareness and to assist consumers in boycotting nestle products.
 
 ## rationale
 
-Nestle is a completely unethical corporation that has cause intense suffering to countless individuals, families, and communities across the globe. Because of this, many people support a boycott of their products. However, Nestle owns so many companies and produces under so many brand names that it can be difficult to tell whether a product sold on an online store is produced by a Nestle-affiliated company.
-If you're curious as to why you should be aware of which products are produced by nestle brands,
-you should check out the following links:
+Néstle is an unethical corporation that has caused intense suffering to countless individuals, families, and communities across the globe. Because of this, many people support a boycott of their products. However, Néstle owns so many companies and produces under so many brand names that it can be difficult to tell whether a product sold on an online store is produced by a Néstle-affiliated company.
+If you're curious as to why you should be aware of which products are produced by nestle brands, check out the following links:
 
 - https://www.ethicalconsumer.org/company-profile/nestle-sa
 - https://www.corp-research.org/nestle
@@ -40,6 +39,22 @@ This project uses [pnpm](https://pnpm.io/), which is faster than npm or yarn, so
 - `pnpm test-intgr`: run integration tests
 - `pnpm test-intgr-inspect`: run integration tests and attach to remote debugger
 
+## CI/CD
+
+There are 3 pipelines set up for this project: CI, Integration Tests, and Publish.
+
+- CI: The CI validates the build by running tsc, eslint, prettier, and jest tests. It fails if any of those fail. Additionally, it runs puppeteer integration tests and uploads screenshots of the failure as a build artifact and alerts me if it fails. It runs every time main is updated.
+
+- Integration Tests: Since this project relies on detecting xpaths on the various websites, it is prone to breakage when the websites are eventually updated. Therefore, a CI job runs some puppeteer integration tests every Monday and will alert me if any fail (this is what the "Integration tests" badge designates), and upload screenshots of the failure as a build artifact
+
+- Publish: In order to make updates to the extension as seamless as possible, this pipeline uses the [https://github.com/LinusU/wext-shipit](@wext/shipit) NPM package to automate submitting updates to Mozilla
+
 ## contact/contribute
 
 If you notice a bug, or would like to contribute, feel free to create an issue or message me.
+
+## TODO:
+
+- protect main branch and require that pull requests pass the CI build before merge
+- publish extension to chrome/opera extension stores
+- possibly update to optionally include other brands, such as Kellog's
