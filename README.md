@@ -4,6 +4,8 @@
 
 This add-on marks products sold under Néstle-affiliated brands with a red X to promote consumer awareness and to assist consumers in boycotting nestle products.
 
+Link to Firefox store page: https://addons.mozilla.org/en-US/firefox/addon/nestle-blocker/
+
 ## rationale
 
 Néstle is an unethical corporation that has caused intense suffering to countless individuals, families, and communities across the globe. Because of this, many people support a boycott of their products. However, Néstle owns so many companies and produces under so many brand names that it can be difficult to tell whether a product sold on an online store is produced by a Néstle-affiliated company.
