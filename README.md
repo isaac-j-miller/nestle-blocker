@@ -10,9 +10,8 @@ Nestle is a completely unethical corporation that has cause intense suffering to
 If you're curious as to why you should be aware of which products are produced by nestle brands,
 you should check out the following links:
 
-- (https://reddit.com/r/fucknestle).
-- (https://www.ethicalconsumer.org/company-profile/nestle-sa)
-- (https://www.corp-research.org/nestle)
+- https://www.ethicalconsumer.org/company-profile/nestle-sa
+- https://www.corp-research.org/nestle
 
 ## supported websites:
 
