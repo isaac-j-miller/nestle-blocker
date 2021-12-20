@@ -23,3 +23,6 @@ export function getHasNestleBrand(brandName: string | undefined, logger: Logger)
   logger.debug(normalized, startsWithNestle);
   return startsWithNestle;
 }
+export function sanitizeArtifactPath(path: string): string {
+  return path.replace(/:|<|>|\||\*|\?|\r|\n|"/g, "_");
+}

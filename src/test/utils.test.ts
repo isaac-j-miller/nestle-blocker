@@ -1,4 +1,4 @@
-import { includesAny, normalize } from "../util";
+import { includesAny, normalize, sanitizeArtifactPath } from "../util";
 
 describe("normalize", () => {
   it("whitespace", () => {
@@ -59,5 +59,40 @@ describe("includesAny", () => {
     const text = "dole bananas";
     const hasBrand = includesAny(text, prefixes);
     expect(hasBrand).toEqual(undefined);
+  });
+});
+
+describe("sanitizePath", () => {
+  it("works (:)", () => {
+    const p = "1:a:3";
+    expect(sanitizeArtifactPath(p)).toEqual("1_a_3");
+  });
+  it("works (<>)", () => {
+    const p = "1<a<3>";
+    expect(sanitizeArtifactPath(p)).toEqual("1_a_3_");
+  });
+  it('works (")', () => {
+    const p = '1"a:3';
+    expect(sanitizeArtifactPath(p)).toEqual("1_a_3");
+  });
+  it("works (|)", () => {
+    const p = "1|a:3";
+    expect(sanitizeArtifactPath(p)).toEqual("1_a_3");
+  });
+  it("works (*)", () => {
+    const p = "1*a*3";
+    expect(sanitizeArtifactPath(p)).toEqual("1_a_3");
+  });
+  it("works (?)", () => {
+    const p = "1?a:3";
+    expect(sanitizeArtifactPath(p)).toEqual("1_a_3");
+  });
+  it("works (carriage return)", () => {
+    const p = "1\ra:3";
+    expect(sanitizeArtifactPath(p)).toEqual("1_a_3");
+  });
+  it("works (newline)", () => {
+    const p = "1\na:3";
+    expect(sanitizeArtifactPath(p)).toEqual("1_a_3");
   });
 });

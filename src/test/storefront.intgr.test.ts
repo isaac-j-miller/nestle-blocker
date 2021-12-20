@@ -10,6 +10,7 @@ import { NestleBrandGetter } from "../nestle-product";
 import { getUiGrocerUtils } from "../ui-grocer-utils/factory";
 import { KnownGrocer } from "../grocers";
 import { Logger, LogLevel } from "../logger";
+import { sanitizeArtifactPath } from "../util";
 
 type UrlMap = {
   [key in KnownGrocer]: string;
@@ -152,7 +153,9 @@ describe("integration tests", () => {
           logger.error(`saving screenshot because of error while testing ${store}...`);
           await mkdirp(`tmp/errors/${store}`);
           await page.screenshot({
-            path: `tmp/errors/${store}/${new Date().toISOString()}-screenshot.png`,
+            path: sanitizeArtifactPath(
+              `tmp/errors/${store}/${new Date().toISOString()}-screenshot.png`
+            ),
             fullPage: true,
           });
           throw err;
@@ -167,7 +170,9 @@ describe("integration tests", () => {
           logger.error(`saving screenshot because of failure while testing ${store}...`);
           await mkdirp(`tmp/failures/${store}`);
           await page.screenshot({
-            path: `tmp/failures/${store}/${new Date().toISOString()}-screenshot.png`,
+            path: sanitizeArtifactPath(
+              `tmp/failures/${store}/${new Date().toISOString()}-screenshot.png`
+            ),
             fullPage: true,
           });
         }
